@@ -39,8 +39,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function jabatan()
+    public function role()
     {
-        return $this->belongsTo(Jabatan::class, 'id_jabatan');
+        return $this->belongsTo(Role::class, 'id_role');
     }
 }

@@ -24,10 +24,12 @@
                         href="{{route('dashboard.index')}}"><i class="side-menu__icon fe fe-home"></i><span
                             class="side-menu__label">Dashboard</span>
                     </a>
-                    {{-- <a class="side-menu__item has-link {{Request::is('pegawai') ? 'active' : '' }}" data-bs-toggle="slide"
-                        href="{{route('pegawai.index')}}"><i class="side-menu__icon fe fe-users"></i><span
-                            class="side-menu__label">Data Pegawai</span>
+                    <a class="side-menu__item has-link {{Request::is('owner') ? 'active' : '' }}" data-bs-toggle="slide"
+                        href="{{route('admin.owner.index')}}"><i class="side-menu__icon fe fe-users"></i><span
+                            class="side-menu__label">Data Owner</span>
                     </a>
+
+                    {{--
                     <a class="side-menu__item has-link {{Request::is('barang') ? 'active' : '' }}" data-bs-toggle="slide"
                         href="{{route('barang.index')}}"><i class="side-menu__icon fe fe-aperture"></i><span
                             class="side-menu__label">Data Barang</span>

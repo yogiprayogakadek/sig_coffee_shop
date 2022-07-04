@@ -13,10 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('pengumuman', function (Blueprint $table) {
-            $table->id('id_pengumuman');
-            $table->string('judul', 50);
-            $table->text('isi');
+        Schema::create('produk', function (Blueprint $table) {
+            $table->id('id_produk');
+            $table->foreignId('id_kedai')->references('id_kedai')->on('kedai')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('nama_produk', 50);
+            $table->string('foto', 100);
+            $table->string('harga', 50);
+            $table->text('deskripsi');
             $table->timestamps();
         });
     }
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pengumuman');
+        Schema::dropIfExists('produk');
     }
 };

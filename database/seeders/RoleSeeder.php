@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Jabatan;
+use App\Models\Role;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -16,12 +17,12 @@ class RoleSeeder extends Seeder
     public function run()
     {
         $jabatan = [
-            'Admin', 'Ketua', 'Sekretaris', 'Bendahara', 'Anggota'
+            'Admin', 'Owner', 'Guest'
         ];
 
         foreach($jabatan as $jabatan) {
-            Jabatan::create([
-                'nama_jabatan' => $jabatan
+            Role::create([
+                'nama' => $jabatan
             ]);
         }
     }

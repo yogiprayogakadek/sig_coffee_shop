@@ -1,7 +1,7 @@
 function getData() {
     $.ajax({
         type: "get",
-        url: "/pegawai/render",
+        url: "/admin/owner/render",
         dataType: "json",
         success: function (response) {
             $(".render").html(response.data);
@@ -15,7 +15,7 @@ function getData() {
 function tambah() {
     $.ajax({
         type: "get",
-        url: "/pegawai/create",
+        url: "/admin/owner/create",
         dataType: "json",
         success: function (response) {
             $(".render").html(response.data);
@@ -48,7 +48,7 @@ $(document).ready(function () {
         let data = new FormData(form)
         $.ajax({
             type: "POST",
-            url: "/pegawai/store",
+            url: "/admin/owner/store",
             data: data,
             processData: false,
             contentType: false,
@@ -99,7 +99,7 @@ $(document).ready(function () {
         let id = $(this).data('id')
         $.ajax({
             type: "get",
-            url: "/pegawai/edit/" + id,
+            url: "/admin/owner/edit/" + id,
             dataType: "json",
             success: function (response) {
                 $(".render").html(response.data);
@@ -121,7 +121,7 @@ $(document).ready(function () {
         let data = new FormData(form)
         $.ajax({
             type: "POST",
-            url: "/pegawai/update",
+            url: "/admin/owner/update",
             data: data,
             processData: false,
             contentType: false,
@@ -182,7 +182,7 @@ $(document).ready(function () {
             if (result.value) {
                 $.ajax({
                     type: "get",
-                    url: "/pegawai/delete/" + id,
+                    url: "/admin/owner/delete/" + id,
                     dataType: "json",
                     success: function (response) {
                         $(".render").html(response.data);
@@ -221,7 +221,7 @@ $(document).ready(function () {
                 };
                 $.ajax({
                     type: "GET",
-                    url: "/pegawai/print/",
+                    url: "/admin/owner/print/",
                     dataType: "json",
                     success: function (response) {
                         document.title= 'Laporan - ' + new Date().toJSON().slice(0,10).replace(/-/g,'/')
