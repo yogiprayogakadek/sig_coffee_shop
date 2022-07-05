@@ -18,5 +18,6 @@
     <link href="{{asset('assets/css/switcher.css')}}" rel="stylesheet">
     <link href="{{asset('assets/css/demo.css')}}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
     @stack('css')
 </head>

@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('kedai', function (Blueprint $table) {
             $table->id('id_kedai');
+            $table->foreignId('id_user')->references('id_user')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->string('nama_kedai', 50);
             $table->string('alamat_kedai', 100);
             $table->string('foto', 100);

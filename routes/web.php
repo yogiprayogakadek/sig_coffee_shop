@@ -21,6 +21,18 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->middleware('auth')-
     });
 });
 
+Route::prefix('/owner')->namespace('Owner')->name('owner.')->middleware('auth')->group(function(){
+    Route::prefix('/kedai')->name('kedai.')->group(function(){
+        Route::get('/', 'KedaiController@index')->name('index');
+        Route::get('/create', 'KedaiController@create')->name('create');
+        Route::get('/render', 'KedaiController@render')->name('render');
+        Route::post('/store', 'KedaiController@store')->name('store');
+        Route::get('/print', 'KedaiController@print')->name('print');
+        Route::get('/detail/{id}', 'KedaiController@detail')->name('detail');
+        Route::get('/delete/{id}', 'KedaiController@delete')->name('delete');
+    });
+});
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -24,9 +24,16 @@
                         href="{{route('dashboard.index')}}"><i class="side-menu__icon fe fe-home"></i><span
                             class="side-menu__label">Dashboard</span>
                     </a>
-                    <a class="side-menu__item has-link {{Request::is('owner') ? 'active' : '' }}" data-bs-toggle="slide"
+                    @can('admin')
+                    <a class="side-menu__item has-link {{Request::is('admin/owner') ? 'active' : '' }}" data-bs-toggle="slide"
                         href="{{route('admin.owner.index')}}"><i class="side-menu__icon fe fe-users"></i><span
                             class="side-menu__label">Data Owner</span>
+                    </a>
+                    @endcan
+
+                    <a class="side-menu__item has-link {{Request::is('owner/kedai') ? 'active' : '' }}" data-bs-toggle="slide"
+                        href="{{route('owner.kedai.index')}}"><i class="side-menu__icon fe fe-users"></i><span
+                            class="side-menu__label">Data Kedai</span>
                     </a>
 
                     {{--
