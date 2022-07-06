@@ -35,8 +35,8 @@
                         <img src="{{asset($kedai->foto)}}" class="img-rounded" width="100px">
                     </td>
                     <td>
-                        <button type="button" class="btn btn-success btn-sm btn-update" data-id="{{$kedai->id_kedai}}">
-                            <i class="fa fa-trash"></i>
+                        <button type="button" class="btn btn-success btn-sm btn-edit" data-id="{{$kedai->id_kedai}}">
+                            <i class="fa fa-edit"></i>
                         </button>
                         <button type="button" class="btn btn-danger btn-sm btn-delete" data-id="{{$kedai->id_kedai}}">
                             <i class="fa fa-trash"></i>

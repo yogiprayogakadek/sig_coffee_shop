@@ -1,7 +1,7 @@
 function getData() {
     $.ajax({
         type: "get",
-        url: "/owner/kedai/render",
+        url: "/owner/produk/render",
         dataType: "json",
         success: function (response) {
             $(".render").html(response.data);
@@ -15,7 +15,7 @@ function getData() {
 function tambah() {
     $.ajax({
         type: "get",
-        url: "/owner/kedai/create",
+        url: "/owner/produk/create",
         dataType: "json",
         success: function (response) {
             $(".render").html(response.data);
@@ -26,6 +26,22 @@ function tambah() {
     });
 }
 
+var rupiah = $("#harga");
+function convertToRupiah(number, prefix) {
+    var number_string = number.replace(/[^,\d]/g, "").toString(),
+        split = number_string.split(","),
+        remaining = split[0].length % 3,
+        rupiah = split[0].substr(0, remaining),
+        thousand = split[0].substr(remaining).match(/\d{3}/gi);
+
+    if (thousand) {
+        separator = remaining ? "." : "";
+        rupiah += separator + thousand.join(".");
+    }
+
+    rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+    return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
+}
 
 $(document).ready(function () {
     getData();
@@ -36,6 +52,10 @@ $(document).ready(function () {
 
     $('body').on('click', '.btn-data', function () {
         getData();
+    });
+
+    $("body").on("keyup", '#harga', function (e) {
+        $("#harga").val(convertToRupiah($(this).val(), "Rp. "))
     });
 
     // on save button
@@ -49,7 +69,7 @@ $(document).ready(function () {
         let data = new FormData(form)
         $.ajax({
             type: "POST",
-            url: "/owner/kedai/store",
+            url: "/owner/produk/store",
             data: data,
             processData: false,
             contentType: false,
@@ -101,7 +121,7 @@ $(document).ready(function () {
         let id = $(this).data('id')
         $.ajax({
             type: "get",
-            url: "/owner/kedai/edit/" + id,
+            url: "/owner/produk/edit/" + id,
             dataType: "json",
             success: function (response) {
                 $(".render").html(response.data);
@@ -123,7 +143,7 @@ $(document).ready(function () {
         let data = new FormData(form)
         $.ajax({
             type: "POST",
-            url: "/owner/kedai/update",
+            url: "/owner/produk/update",
             data: data,
             processData: false,
             contentType: false,
@@ -185,7 +205,7 @@ $(document).ready(function () {
             if (result.value) {
                 $.ajax({
                     type: "get",
-                    url: "/owner/kedai/delete/" + id,
+                    url: "/owner/produk/delete/" + id,
                     dataType: "json",
                     success: function (response) {
                         $(".render").html(response.data);
@@ -224,7 +244,7 @@ $(document).ready(function () {
                 };
                 $.ajax({
                     type: "GET",
-                    url: "/owner/kedai/print/",
+                    url: "/owner/produk/print/",
                     dataType: "json",
                     success: function (response) {
                         document.title= 'Laporan - ' + new Date().toJSON().slice(0,10).replace(/-/g,'/')

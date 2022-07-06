@@ -1,7 +1,7 @@
 function getData() {
     $.ajax({
         type: "get",
-        url: "/owner/kedai/render",
+        url: "/owner/promo/render",
         dataType: "json",
         success: function (response) {
             $(".render").html(response.data);
@@ -15,7 +15,7 @@ function getData() {
 function tambah() {
     $.ajax({
         type: "get",
-        url: "/owner/kedai/create",
+        url: "/owner/promo/create",
         dataType: "json",
         success: function (response) {
             $(".render").html(response.data);
@@ -25,7 +25,6 @@ function tambah() {
         },
     });
 }
-
 
 $(document).ready(function () {
     getData();
@@ -49,7 +48,7 @@ $(document).ready(function () {
         let data = new FormData(form)
         $.ajax({
             type: "POST",
-            url: "/owner/kedai/store",
+            url: "/owner/promo/store",
             data: data,
             processData: false,
             contentType: false,
@@ -101,7 +100,7 @@ $(document).ready(function () {
         let id = $(this).data('id')
         $.ajax({
             type: "get",
-            url: "/owner/kedai/edit/" + id,
+            url: "/owner/promo/edit/" + id,
             dataType: "json",
             success: function (response) {
                 $(".render").html(response.data);
@@ -123,7 +122,7 @@ $(document).ready(function () {
         let data = new FormData(form)
         $.ajax({
             type: "POST",
-            url: "/owner/kedai/update",
+            url: "/owner/promo/update",
             data: data,
             processData: false,
             contentType: false,
@@ -185,7 +184,7 @@ $(document).ready(function () {
             if (result.value) {
                 $.ajax({
                     type: "get",
-                    url: "/owner/kedai/delete/" + id,
+                    url: "/owner/promo/delete/" + id,
                     dataType: "json",
                     success: function (response) {
                         $(".render").html(response.data);
@@ -224,7 +223,7 @@ $(document).ready(function () {
                 };
                 $.ajax({
                     type: "GET",
-                    url: "/owner/kedai/print/",
+                    url: "/owner/promo/print/",
                     dataType: "json",
                     success: function (response) {
                         document.title= 'Laporan - ' + new Date().toJSON().slice(0,10).replace(/-/g,'/')

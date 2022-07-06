@@ -1,5 +1,5 @@
 <div class="col-12">
-    <form id="formAdd">
+    <form id="formEdit">
         <div class="card">
             <div class="card-header">
                 <div class="card-title">Data Kedai</div>
@@ -12,37 +12,39 @@
             <div class="card-body">
                 <div class="form-group">
                     <label for="nama-kedai">Nama Kedai</label>
-                    <input type="text" class="form-control nama_kedai" name="nama_kedai" id="nama-kedai" placeholder="masukkan nama kedai">
+                    <input type="hidden" name="id_kedai" value="{{$kedai->id_kedai}}">
+                    <input type="text" class="form-control nama_kedai" name="nama_kedai" id="nama-kedai" placeholder="masukkan nama kedai" value="{{$kedai->nama_kedai}}">
                     <div class="invalid-feedback error-nama_kedai"></div>
                 </div>
                 <div class="form-group">
                     <label for="alamat-kedai">Alamat Kedai</label>
-                    <textarea class="form-control alamat_kedai" name="alamat_kedai" id="alamat-kedai" placeholder="masukkan alamat kedai"></textarea>
+                    <textarea class="form-control alamat_kedai" name="alamat_kedai" id="alamat-kedai" placeholder="masukkan alamat kedai">{{$kedai->alamat_kedai}}</textarea>
                     <div class="invalid-feedback error-alamat_kedai"></div>
                 </div>
                 <div class="form-group">
                     <label for="latitude">Latitude</label>
-                    <input type="text" class="form-control latitude" name="latitude" id="latitude" placeholder="masukkan latitude">
+                    <input type="text" class="form-control latitude" name="latitude" id="latitude" placeholder="masukkan latitude" value="{{$kedai->latitude}}">
                     <div class="invalid-feedback error-latitude"></div>
                 </div>
                 <div class="form-group">
                     <label for="longitude">Longitude</label>
-                    <input type="text" class="form-control longitude" name="longitude" id="longitude" placeholder="masukkan longitude">
+                    <input type="text" class="form-control longitude" name="longitude" id="longitude" placeholder="masukkan longitude" value="{{$kedai->longitude}}">
                     <div class="invalid-feedback error-longitude"></div>
                 </div>
                 <div class="form-group">
                     <label for="foto">Foto</label>
                     <input type="file" class="form-control foto" name="foto" id="foto" placeholder="masukkan foto">
                     <div class="invalid-feedback error-foto"></div>
+                    <span>*kosongkan foto jika tidak ingin mengubah foto</span>
                 </div>
                 <div class="form-group">
                     <label for="deskripsi">Deskripsi Kedai</label>
-                    <textarea class="form-control deskripsi" name="deskripsi" id="deskripsi" placeholder="masukkan deskripsi kedai"></textarea>
+                    <textarea class="form-control deskripsi" name="deskripsi" id="deskripsi" placeholder="masukkan deskripsi kedai">{{$kedai->deskripsi}}</textarea>
                     <div class="invalid-feedback error-deskripsi"></div>
                 </div>
                 {{-- </form> --}}
                 <div class="form-group">
-                    <button class="btn btn-success btn-save pull-right" type="button">
+                    <button class="btn btn-success btn-update pull-right" type="button">
                         <i class="fa fa-save"></i> Simpan
                     </button>
                 </div>

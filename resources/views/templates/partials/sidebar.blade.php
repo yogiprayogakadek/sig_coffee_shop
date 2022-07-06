@@ -35,6 +35,14 @@
                         href="{{route('owner.kedai.index')}}"><i class="side-menu__icon fe fe-users"></i><span
                             class="side-menu__label">Data Kedai</span>
                     </a>
+                    <a class="side-menu__item has-link {{Request::is('owner/produk') ? 'active' : '' }}" data-bs-toggle="slide"
+                        href="{{route('owner.produk.index')}}"><i class="side-menu__icon fe fe-users"></i><span
+                            class="side-menu__label">Data Produk</span>
+                    </a>
+                    <a class="side-menu__item has-link {{Request::is('owner/promo') ? 'active' : '' }}" data-bs-toggle="slide"
+                        href="{{route('owner.promo.index')}}"><i class="side-menu__icon fe fe-users"></i><span
+                            class="side-menu__label">Data Promo</span>
+                    </a>
 
                     {{--
                     <a class="side-menu__item has-link {{Request::is('barang') ? 'active' : '' }}" data-bs-toggle="slide"

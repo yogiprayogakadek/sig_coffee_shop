@@ -43,4 +43,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class, 'id_role');
     }
+
+    public function kedai()
+    {
+        return $this->hasMany(Kedai::class, 'id_user');
+    }
 }

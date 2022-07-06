@@ -12,4 +12,19 @@ class Kedai extends Model
     protected $guarded = ['id_kedai'];
     protected $table = 'kedai';
     protected $primaryKey = 'id_kedai';
+
+    public function produk()
+    {
+        return $this->hasMany(Produk::class, 'id_kedai');
+    }
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'id_user');
+    }
+
+    public function promo()
+    {
+        return $this->hasMany(Promo::class, 'id_kedai');
+    }
 }
