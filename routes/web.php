@@ -3,11 +3,19 @@
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/', 'Main\MainController@index')->name('main');
-Route::prefix('/')->namespace('Main')->middleware('auth')->group(function(){
-    Route::prefix('/dashboard')->name('dashboard.')->group(function(){
-        Route::get('/', 'DashboardController@index')->name('index');
-        // Route::post('/chart', 'DashboardController@chart')->name('chart');
+
+Route::prefix('/')->namespace('Main')->group(function(){
+    Route::get('/', 'MainController@index')->name('main');
+
+    // single page
+    Route::get('/detail/{id}', 'MainController@detail')->name('detail');
+    Route::post('/ulasan', 'MainController@ulasan')->name('ulasan');
+
+    Route::middleware('auth')->group(function() {
+        Route::prefix('/dashboard')->name('dashboard.')->group(function(){
+            Route::get('/', 'DashboardController@index')->name('index');
+            // Route::post('/chart', 'DashboardController@chart')->name('chart');
+        });
     });
 
 });

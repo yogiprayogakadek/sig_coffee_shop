@@ -27,4 +27,9 @@ class Kedai extends Model
     {
         return $this->hasMany(Promo::class, 'id_kedai');
     }
+
+    public function ulasan()
+    {
+        return $this->hasMany(Ulasan::class, 'id_kedai');
+    }
 }

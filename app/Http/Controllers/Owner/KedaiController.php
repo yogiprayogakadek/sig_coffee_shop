@@ -64,7 +64,7 @@ class KedaiController extends Controller
                 $data['foto'] = $save_path . '/' . $filenametostore;
 
                 $img = Image::make($request->file('foto')->getRealPath());
-                $img->resize(512, 512);
+                $img->resize(600, 600);
                 $img->save($save_path . '/' . $filenametostore);
             }
 
@@ -156,7 +156,7 @@ class KedaiController extends Controller
                 $data['foto'] = $save_path . '/' . $filenametostore;
 
                 $img = Image::make($request->file('foto')->getRealPath());
-                $img->resize(512, 512);
+                $img->resize(600, 600);
                 $img->save($save_path . '/' . $filenametostore);
             }
 

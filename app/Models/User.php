@@ -48,4 +48,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Kedai::class, 'id_user');
     }
+
+    public function ulasan()
+    {
+        return $this->hasMany(Ulasan::class, 'id_user');
+    }
 }
