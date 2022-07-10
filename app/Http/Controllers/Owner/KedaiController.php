@@ -85,6 +85,10 @@ class KedaiController extends Controller
                     $filename = uniqid();
                     $filepath = "/assets/uploads/media/content/$filename.$mimetype";
 
+                    if(!file_exists($contentPath)) {
+                        mkdir($contentPath, 666, true);
+                    }
+
                     // @see http://image.intervention.io/api/
                     $image = Image::make($src)
                         // resize if required

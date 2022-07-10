@@ -11,6 +11,12 @@ Route::prefix('/')->namespace('Main')->group(function(){
     Route::get('/detail/{id}', 'MainController@detail')->name('detail');
     Route::post('/ulasan', 'MainController@ulasan')->name('ulasan');
 
+    // search
+    Route::prefix('/search')->name('search.')->group(function(){
+        Route::get('/', 'MainController@search')->name('index');
+        Route::get('/keyword/{keyword}', 'MainController@searchKeyword')->name('keyword');
+    });
+
     Route::middleware('auth')->group(function() {
         Route::prefix('/dashboard')->name('dashboard.')->group(function(){
             Route::get('/', 'DashboardController@index')->name('index');

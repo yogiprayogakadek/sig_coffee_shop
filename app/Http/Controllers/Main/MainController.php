@@ -70,4 +70,20 @@ class MainController extends Controller
             return abort(403);
         }
     }
+
+    public function search()
+    {
+        $kedai = Kedai::all();
+        // dd($kedai);
+        return view('main.mainpage.search.index')->with([
+            'kedai' => $kedai
+        ]);
+    }
+
+    public function searchKeyword($keyword)
+    {
+        $kedai = Kedai::where('nama_kedai', $keyword)->first();
+        // dd($kedai);
+        return response()->json($kedai);
+    }
 }

@@ -23,7 +23,7 @@
                     </a>
                 </li>
                 <li class="dropdown nav-item">
-                    <a href="{{route('main')}}" class="nav-link">
+                    <a href="{{route('search.index')}}" class="nav-link">
                         <i class="material-icons">search</i> Search
                     </a>
                 </li>
