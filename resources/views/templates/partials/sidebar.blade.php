@@ -2,11 +2,11 @@
     <div class="app-sidebar__overlay" data-bs-toggle="sidebar"></div>
     <div class="app-sidebar ps ps--active-y sidemenu-scroll">
         <div class="side-header"> <a class="header-brand1" href="{{route('main')}}"> <img
-                    src="{{asset('assets/images/logo.jpeg')}}" class="header-brand-img desktop-logo"
-                    alt="logo"> <img src="{{asset('assets/images/logo.jpeg')}}"
+                    src="{{asset('assets/frontend/landing-page/img/denpasar.png')}}" class="header-brand-img desktop-logo"
+                    alt="logo"> <img src="{{asset('assets/frontend/landing-page/img/denpasar.png')}}"
                     class="header-brand-img toggle-logo" alt="logo"> <img
-                    src="{{asset('assets/images/logo.jpeg')}}" class="header-brand-img light-logo"
-                    alt="logo"> <img src="{{asset('assets/images/logo.jpeg')}}"
+                    src="{{asset('assets/frontend/landing-page/img/denpasar.png')}}" class="header-brand-img light-logo"
+                    alt="logo"> <img src="{{asset('assets/frontend/landing-page/img/denpasar.png')}}"
                     class="header-brand-img light-logo1" style="width: 100px" alt="logo"> </a> <!-- LOGO -->
         </div>
         <div class="main-sidemenu">
@@ -32,15 +32,15 @@
                     @endcan
 
                     <a class="side-menu__item has-link {{Request::is('owner/kedai') ? 'active' : '' }}" data-bs-toggle="slide"
-                        href="{{route('owner.kedai.index')}}"><i class="side-menu__icon fe fe-users"></i><span
+                        href="{{route('owner.kedai.index')}}"><i class="side-menu__icon fe fe-server"></i><span
                             class="side-menu__label">Data Kedai</span>
                     </a>
                     <a class="side-menu__item has-link {{Request::is('owner/produk') ? 'active' : '' }}" data-bs-toggle="slide"
-                        href="{{route('owner.produk.index')}}"><i class="side-menu__icon fe fe-users"></i><span
+                        href="{{route('owner.produk.index')}}"><i class="side-menu__icon fe fe-package"></i><span
                             class="side-menu__label">Data Produk</span>
                     </a>
                     <a class="side-menu__item has-link {{Request::is('owner/promo') ? 'active' : '' }}" data-bs-toggle="slide"
-                        href="{{route('owner.promo.index')}}"><i class="side-menu__icon fe fe-users"></i><span
+                        href="{{route('owner.promo.index')}}"><i class="side-menu__icon fe fe-globe"></i><span
                             class="side-menu__label">Data Promo</span>
                     </a>
 

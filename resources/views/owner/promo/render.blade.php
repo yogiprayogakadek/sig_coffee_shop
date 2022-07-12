@@ -6,9 +6,9 @@
                 <button class="btn btn-primary btn-add">
                     <i class="fa fa-plus"></i> Tambah
                 </button>
-                <button class="btn btn-success btn-print" style="margin-left: 2px">
+                {{-- <button class="btn btn-success btn-print" style="margin-left: 2px">
                     <i class="fa fa-print"></i> Cetak
-                </button>
+                </button> --}}
             </div>
         </div>
         <div class="card-body">

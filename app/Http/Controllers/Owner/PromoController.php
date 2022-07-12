@@ -18,7 +18,13 @@ class PromoController extends Controller
 
     public function render()
     {
-        $data = Promo::all();
+        if(auth()->user()->role->nama == 'Admin') {
+            $data = Promo::all();
+        } else {
+            $kedai = Kedai::where('id_user', auth()->user()->id_user)->pluck('id_kedai')->toArray();
+            $data = Promo::whereIn('id_kedai', $kedai)->get();
+        }
+        // $data = Promo::all();
 
         $view = [
             'data' => view('owner.promo.render', compact('data'))->render()
@@ -40,7 +46,11 @@ class PromoController extends Controller
 
     public function create()
     {
-        $data = Kedai::pluck('nama_kedai', 'id_kedai')->prepend('Pilih Kedai', '');
+        if(auth()->user()->role->nama == 'Admin') {
+            $data = Kedai::all();
+        } else {
+            $data = Kedai::where('id_user', auth()->user()->id_user)->pluck('nama_kedai', 'id_kedai')->prepend('Pilih Kedai', '');
+        }
         $view = [
             'data' => view('owner.promo.create', compact('data'))->render()
         ];
@@ -134,7 +144,7 @@ class PromoController extends Controller
     public function edit($id)
     {
         $data = Promo::find($id);
-        $kedai = Kedai::pluck('nama_kedai', 'id_kedai')->prepend('Pilih Kedai', '');
+        $kedai = Kedai::where('id_user', auth()->user()->id_user)->pluck('nama_kedai', 'id_kedai')->prepend('Pilih Kedai', '');
         $view = [
             'data' => view('owner.promo.edit', compact('data', 'kedai'))->render()
         ];

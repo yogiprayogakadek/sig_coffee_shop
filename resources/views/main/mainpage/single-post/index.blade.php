@@ -10,7 +10,7 @@ SIG Coffee Shop - {{$kedai->nama_kedai}}
         <h2 class="title text-center">{{$kedai->nama_kedai}}</h2>
         <div class="team">
             <div class="row">
-                <div class="col-md-10 ml-auto mr-auto">
+                <div class="col-md-12 ml-auto mr-auto">
                     {!! $kedai->deskripsi !!}
                 </div>
             </div>
@@ -50,6 +50,66 @@ SIG Coffee Shop - {{$kedai->nama_kedai}}
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        {{-- Produk --}}
+        <div class="row">
+            <div class="col-md-12 ml-auto mr-auto">
+                <h2 class="text-center title">Produk</h2>
+                <div class="row">
+                    @forelse ($kedai->produk as $produk)
+                        <div class="col-md-4 mr-auto ml-auto">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title" style="text-align: center">{{$produk->nama_produk}}</h4>
+                                    <p class="card-description">
+                                        <img src="{{asset($produk->foto)}}" class="img-thumbnail">
+                                    </p>
+                                    {{-- <p class="card-description">
+                                        Dapatkan potongan sebesar <b>{{$produk->potongan}} %</b>
+                                    </p> --}}
+                                    {{-- <a href="{{route('main.promo.detail', $promo->id)}}" class="btn btn-primary btn-round">
+                                        <i class="fa fa-eye"></i> Lihat
+                                    </a> --}}
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                    <h2 class="text-center title">Tidak ada promo</h2>
+                    @endforelse
+                </div>
+                
+            </div>
+        </div>
+
+        {{-- Promo --}}
+        <div class="row">
+            <div class="col-md-12 ml-auto mr-auto">
+                <h2 class="text-center title">Promo Kedai</h2>
+                <div class="row">
+                    @forelse ($kedai->promo as $promo)
+                        <div class="col-md-4 mr-auto ml-auto">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title" style="text-align: center">{{$promo->nama_promo}}</h4>
+                                    <p class="card-description">
+                                        <img src="{{asset($promo->foto)}}" class="img-thumbnail">
+                                    </p>
+                                    <p class="card-description">
+                                        Dapatkan potongan sebesar <b>{{$promo->potongan}} %</b>
+                                    </p>
+                                    {{-- <a href="{{route('main.promo.detail', $promo->id)}}" class="btn btn-primary btn-round">
+                                        <i class="fa fa-eye"></i> Lihat
+                                    </a> --}}
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                    <h2 class="text-center title">Tidak ada promo</h2>
+                    @endforelse
+                </div>
+                
             </div>
         </div>
 

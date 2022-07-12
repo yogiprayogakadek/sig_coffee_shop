@@ -1,11 +1,11 @@
 <div class="card">
     <div class="card-header">
         <div class="card-title">Data Owner</div>
-        <div class="card-options">
+        {{-- <div class="card-options">
             <button class="btn btn-success btn-print">
                 <i class="fa fa-print"></i> Cetak
             </button>
-        </div>
+        </div> --}}
     </div>
     <div class="card-body">
         <table class="table table-hover table-striped" id="tableData">

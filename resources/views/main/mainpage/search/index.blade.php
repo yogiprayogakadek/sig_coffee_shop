@@ -14,7 +14,6 @@
         body {
             height: 100%;
         }
-
         #map {
             height: 100%;
         }
@@ -24,7 +23,9 @@
 <body>
     <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Navbar</a>
+            <a class="navbar-brand" href="{{route('main')}}">
+                <img src="{{asset('assets/frontend/landing-page/img/pesona-indonesia.png')}}" width="20" height="20" alt="">
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -33,11 +34,39 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link" aria-current="page" href="{{route('main')}}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
+                        <a class="nav-link active" href="#">Search</a>
                     </li>
+                    @guest
+                    <li class="nav-item">
+                        <a href="{{route('login')}}" class="nav-link">
+                            <i class="fa fa-lock"></i> Login
+                        </a>
+                    </li>
+                    @else
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{Auth::user()->nama}}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{route('logout')}}" onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();">Logout</a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </div>
+
+                        {{-- <a href="{{route('logout')}}" class="dropdown-item" onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();">
+                            <i class="ti-lock text-muted me-2"></i>{{ __('Logout') }}</a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form> --}}
+                    </li>
+                    @endguest
                 </ul>
                 <div class="d-flex col-sm-3">
                     <input class="form-control me-2 typeahead" type="search" placeholder="cari tempat..." aria-label="Search">
@@ -52,56 +81,7 @@
     <div class="modal left fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog">
             <div class="modal-content">
-        <div id="SideMenu">
-          <div class="card">
-            <div class="card-header btn btn-default mh1" data-toggle="collapse" data-target="#MenuLayers" data-parent="#SideMenu">
-              <i class="fa fa-map fa-fw"></i>&nbsp;Map Layers
-            </div>
-            <div id="MenuLayers" class="collapse show">
-              <div class="card-block list-group mg1">
-                <button type="button" class="list-group-item list-group-item-action"><i class="fa fa-question fa-fw"></i>&nbsp;Road</button>
-                <button type="button" class="list-group-item list-group-item-action"><i class="fa fa-question fa-fw"></i>&nbsp;Hybrid</button>
-                <button type="button" class="list-group-item list-group-item-action"><i class="fa fa-question fa-fw"></i>&nbsp;Item</button>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-header btn btn-default mh1" data-toggle="collapse" data-target="#MenuStuff" data-parent="#SideMenu">
-              <i class="fa fa-bullseye fa-fw"></i>&nbsp;Stuff 'n Junk
-            </div>
-            <div id="MenuStuff" class="collapse">
-              <div class="card-block list-group mg1">
-                <button type="button" class="list-group-item list-group-item-action"><i class="fa fa-question fa-fw"></i>&nbsp;Item</button>
-                <button type="button" class="list-group-item list-group-item-action"><i class="fa fa-question fa-fw"></i>&nbsp;Item</button>
-                <button type="button" class="list-group-item list-group-item-action"><i class="fa fa-question fa-fw"></i>&nbsp;Item</button>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-header btn btn-default mh1" data-toggle="collapse" data-target="#MenuTools" data-parent="#SideMenu">
-              <i class="fa fa-wrench fa-fw"></i>&nbsp;Tools
-            </div>
-            <div id="MenuTools" class="collapse">
-              <div class="card-block list-group mg1">
-                <button type="button" class="list-group-item list-group-item-action"><i class="fa fa-question fa-fw"></i>&nbsp;Item</button>
-                <button type="button" class="list-group-item list-group-item-action"><i class="fa fa-question fa-fw"></i>&nbsp;Item</button>
-                <button type="button" class="list-group-item list-group-item-action"><i class="fa fa-question fa-fw"></i>&nbsp;Item</button>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-header btn btn-default mh1" data-toggle="collapse" data-target="#MenuSettings" data-parent="#SideMenu">
-              <i class="fa fa-cog fa-fw"></i>&nbsp;Settings
-            </div>
-            <div id="MenuSettings" class="collapse">
-              <div class="card-block list-group mg1">
-                <button type="button" class="list-group-item list-group-item-action"><i class="fa fa-question fa-fw"></i>&nbsp;Item</button>
-                <button type="button" class="list-group-item list-group-item-action"><i class="fa fa-question fa-fw"></i>&nbsp;Item</button>
-                <button type="button" class="list-group-item list-group-item-action"><i class="fa fa-question fa-fw"></i>&nbsp;Item</button>
-              </div>
-            </div>
-          </div>
-        </div>
+                assa
             </div><!-- modal-content -->
         </div><!-- modal-dialog -->
     </div><!-- modal -->
@@ -122,6 +102,7 @@
         var long = [];
         var nama = [];
         var searchData = [];
+        var id_kedai = [];
 
         function pushData() {
             @foreach ($kedai as $item)
@@ -129,6 +110,7 @@
                 long.push({{ $item->longitude }});
                 nama.push('{{ $item->nama_kedai }}');
                 searchData.push('{{ $item->nama_kedai }}');
+                id_kedai.push({{ $item->id_kedai }});
             @endforeach
         }
 
@@ -152,9 +134,11 @@
                 
                 google.maps.event.addListener(marker, 'click', (function(marker, i) {
                     return function() {
-                        $('#myModal').modal('show');
+                        // $('#myModal').modal('show');
                         // infowindow.setContent(nama[i]);
-                        // infowindow.open(map, marker);
+                        // infowindow.setContent('<button class="btn btn-primary">'+nama[i]+'</button>');
+                        infowindow.setContent('<a href="{{url('/detail/')}}/'+id_kedai[i]+'">'+nama[i]+'</a>');
+                        infowindow.open(map, marker);
                     }
                 })(marker, i));
             }
@@ -183,9 +167,11 @@
                     long = [];
                     lat = [];
                     nama = [];
+                    id_kedai = [];
                     long.push(data.longitude);
                     lat.push(data.latitude);
                     nama.push(data.nama_kedai);
+                    id_kedai.push(data.id_kedai);
                     // $('#map').empty();
                     initMap();
                 });
@@ -193,6 +179,7 @@
 
             // btn refresh
             $('body').on('click', '.btn-refresh', function() {
+                $('.typeahead').val('');
                 pushData();
                 initMap();
             })

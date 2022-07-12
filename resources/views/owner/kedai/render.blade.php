@@ -2,9 +2,9 @@
     <div class="card-header">
         <div class="card-title">Data Kedai</div>
         <div class="card-options">
-            <button class="btn btn-success btn-print">
+            {{-- <button class="btn btn-success btn-print">
                 <i class="fa fa-print"></i> Cetak
-            </button>
+            </button> --}}
 
             <button class="btn btn-primary btn-add" style="margin-left: 2px">
                 <i class="fa fa-plus"></i> Tambah

@@ -12,14 +12,14 @@
             <strong>Hai!</strong>
             Selamat datang
         </div>
-        {{-- <div class="row">
+        <div class="row">
             @foreach (menu() as $key => $menu)
             <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
                 <div class="card overflow-hidden">
                     <div class="card-body">
                         <div class="d-flex">
                             <div class="mt-2">
-                                <h6 class="">Jumlah {{$menu == 'Tiket Masuk' ? $menu . ' Terjual' : ($menu == 'Tenda' ? $menu . ' Terjual' : $menu)}}</h6>
+                                <h6 class="">Jumlah {{$menu}}</h6>
                                 <h2 class="mb-0 number-font">{{totalData($menu)}}</h2>
                             </div>
                         </div>
@@ -36,7 +36,7 @@
             @endforeach
         </div>
 
-        <div class="card">
+        {{-- <div class="card">
             <div class="card-header bg-info-transparent card-transparent">
                 <h3 class="card-title text-info chart-title">Chart Penjualan Produk</h3>
                 <div class="card-options">

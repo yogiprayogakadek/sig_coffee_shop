@@ -18,7 +18,13 @@ class ProdukController extends Controller
 
     public function render()
     {
-        $data = Produk::all();
+        if(auth()->user()->role->nama == 'Admin') {
+            $data = Produk::all();
+        } else {
+            $kedai = Kedai::where('id_user', auth()->user()->id_user)->pluck('id_kedai')->toArray();
+            $data = Produk::whereIn('id_kedai', $kedai)->get();
+        }
+        // $data = Produk::all();
 
         $view = [
             'data' => view('owner.produk.render', compact('data'))->render()
@@ -40,7 +46,12 @@ class ProdukController extends Controller
 
     public function create()
     {
-        $data = Kedai::pluck('nama_kedai', 'id_kedai')->prepend('Pilih Kedai', '');
+        if(auth()->user()->role->nama == 'Admin') {
+            $data = Kedai::all();
+        } else {
+            $data = Kedai::where('id_user', auth()->user()->id_user)->pluck('nama_kedai', 'id_kedai')->prepend('Pilih Kedai', '');
+        }
+        // $data = Kedai::pluck('nama_kedai', 'id_kedai')->prepend('Pilih Kedai', '');
         $view = [
             'data' => view('owner.produk.create', compact('data'))->render()
         ];
@@ -136,7 +147,8 @@ class ProdukController extends Controller
     public function edit($id)
     {
         $data = Produk::find($id);
-        $kedai = Kedai::pluck('nama_kedai', 'id_kedai')->prepend('Pilih Kedai', '');
+        $kedai = Kedai::where('id_user', auth()->user()->id_user)->pluck('nama_kedai', 'id_kedai')->prepend('Pilih Kedai', '');
+        // $kedai = Kedai::pluck('nama_kedai', 'id_kedai')->prepend('Pilih Kedai', '');
         $view = [
             'data' => view('owner.produk.edit', compact('data', 'kedai'))->render()
         ];

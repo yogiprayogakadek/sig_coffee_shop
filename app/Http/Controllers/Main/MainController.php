@@ -23,7 +23,7 @@ class MainController extends Controller
     public function detail($id)
     {
         $ulasan = Ulasan::where('id_kedai', $id)->get();
-        $kedai = Kedai::find($id);
+        $kedai = Kedai::with('promo', 'produk')->find($id);
 
         if(auth()->check()) {
             $userHasFeedback = Ulasan::where('id_user', auth()->user()->id_user)->where('id_kedai', $id)->count();

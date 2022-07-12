@@ -17,7 +17,11 @@ class KedaiController extends Controller
 
     public function render()
     {
-        $kedai = Kedai::all();
+        if(auth()->user()->role->nama == 'Admin') {
+            $kedai = Kedai::all();
+        } else {
+            $kedai = Kedai::where('id_user', auth()->user()->id_user)->get();
+        }
 
         $view = [
             'data' => view('owner.kedai.render', compact('kedai'))->render()

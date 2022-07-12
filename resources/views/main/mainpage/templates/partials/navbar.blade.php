@@ -46,9 +46,9 @@
                         <div class="ripple-container"></div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-left">
-                        {{-- @can('isAdmin')
-                        <a href="{{route('admin.page')}}" class="dropdown-item">Admin Dashboard</a>
-                        @endcan --}}
+                        @cannot('guest')
+                        <a href="{{route('dashboard.index')}}" class="dropdown-item">Dashboard</a>
+                        @endcannot
                         <a href="{{route('logout')}}" class="dropdown-item" onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();">
                             <i class="ti-lock text-muted me-2"></i>{{ __('Logout') }}</a>

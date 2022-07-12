@@ -4,6 +4,8 @@ use App\Models\Maintenance;
 use App\Models\MaintenanceHistori;
 use App\Models\Pengadaan;
 use App\Models\PengadaanHistori;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 function randomString($length = 6) {
@@ -86,8 +88,12 @@ function subtractingDate($date1, $date2)
 function menu()
 {
     $menu = [
-        'Barang', 'Pengadaan', 'Perbaikan', 'Kerusakan'
+        'Kedai', 'Produk', 'Promo'
     ];
+
+    if(auth()->user()->role->nama == 'Admin') {
+        $menu[] = 'Owner';
+    }
 
     return $menu;
 }
@@ -95,11 +101,14 @@ function menu()
 function RouteURL()
 {
     $url = [
-        0 => 'barang.index', 
-        1 => 'pengadaan.index', 
-        2 => 'perbaikan.index', 
-        3 => 'kerusakan.index'
+        0 => 'owner.kedai.index', 
+        1 => 'owner.produk.index', 
+        2 => 'owner.promo.index',
     ];
+
+    if(auth()->user()->role->nama == 'Admin') {
+        $url[] =  'admin.owner.index';
+    }
 
     return $url;
 }
@@ -107,15 +116,24 @@ function RouteURL()
 function totalData($model)
 {
     $a = 'App\Models\\' . $model;
-    if($model == 'Perbaikan'){
-        $total = Maintenance::where('kategori_maintenance', 'Perawatan dan Perbaikan')->count();
-    }
-    elseif($model == 'Kerusakan'){
-        $total = Maintenance::where('kategori_maintenance', 'Kerusakan')->count();
+    // if($model == 'Perbaikan'){
+    //     $total = Maintenance::where('kategori_maintenance', 'Perawatan dan Perbaikan')->count();
+    // }
+    // elseif($model == 'Kerusakan'){
+    //     $total = Maintenance::where('kategori_maintenance', 'Kerusakan')->count();
+    // }
+    // else{
+    //     $total = $a::count();
+    // }
+
+    if($model == 'Owner'){
+        $role = Role::where('nama', 'Owner')->first();
+        $total = User::where('id_role', $role->id_role)->count();
     }
     else{
         $total = $a::count();
     }
+
     return $total;
 }
 
