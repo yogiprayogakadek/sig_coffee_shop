@@ -254,4 +254,43 @@ $(document).ready(function () {
             }
         })
     });
+
+     // on change status
+    $('body').on('change', '#status', function() {
+        let idProduk = $(this).data('id');
+        let currentStatus = $(this).data('status');
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "/owner/produk/change-status",
+            data: {
+                id_produk: idProduk,
+                status: $(this).val()
+            },
+            success: function(response) {
+                if(response.status != 'success') {
+                    $('#status').val(currentStatus);
+                }
+                getData();
+                Swal.fire(
+                    response.title,
+                    response.message,
+                    response.status
+                );
+            },
+            error: function(response) {
+                Swal.fire(
+                    response.title,
+                    response.message,
+                    response.status
+                );
+            }
+        });
+    });
 });

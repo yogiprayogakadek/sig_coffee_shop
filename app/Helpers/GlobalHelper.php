@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Kedai;
 use App\Models\Maintenance;
 use App\Models\MaintenanceHistori;
 use App\Models\Pengadaan;
@@ -131,7 +132,18 @@ function totalData($model)
         $total = User::where('id_role', $role->id_role)->count();
     }
     else{
-        $total = $a::count();
+        if(auth()->user()->role->nama == 'Admin'){
+            $total = $a::count();
+        }
+        else{
+            if($model == 'Kedai') {
+                $total = $a::where('id_user', auth()->user()->id_user)->count();
+            } else {
+                $kedai = Kedai::where('id_user', auth()->user()->id_user)->get();
+                $total = $a::whereIn('id_kedai', $kedai->pluck('id_kedai'))->count();
+            }
+        }
+        // $total = $a::count();
     }
 
     return $total;

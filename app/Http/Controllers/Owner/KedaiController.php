@@ -234,4 +234,30 @@ class KedaiController extends Controller
             ]);
         }
     }
+
+    public function changeStatus(Request $request)
+    {
+        try {
+            // dd($request->all());
+            $status = $request->status;
+            $id_kedai = $request->id_kedai;
+            // dd($id_produk);
+            $kedai = Kedai::find($id_kedai);
+            $kedai->update([
+                'status' => $status
+            ]);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Status berhasil di ubah',
+                'title' => 'Berhasil'
+            ]);
+        } catch(\Exception $e){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Status gagal di ubah',
+                'title' => 'Gagal'
+            ]);
+        }
+    }
 }

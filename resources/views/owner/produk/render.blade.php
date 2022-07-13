@@ -21,6 +21,7 @@
                         <th>Nama Produk</th>
                         <th>Harga</th>
                         <th>Foto</th>
+                        <td>Status</td>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -37,12 +38,18 @@
                             <img class="d-block w-100 br-5 image-update" alt="" src="{{asset($data->foto)}}"> 
                         </td>
                         <td>
+                            <select name="status" id="status" class="form-control" data-id="{{$data->id_produk}}" data-status="{{$data->status}}">
+                                <option value="1" {{$data->status == '1' ? 'selected' : ''}}>Aktif</option>
+                                <option value="0" {{$data->status == '0' ? 'selected' : ''}}>Tidak Aktif</option>
+                            </select>
+                        </td>
+                        <td>
                             <button class="btn btn-primary btn-edit" data-id="{{$data->id_produk}}">
                                 <i class="fa fa-edit"></i> Edit
                             </button>
-                            <button class="btn btn-danger btn-delete" data-id="{{$data->id_produk}}">
+                            {{-- <button class="btn btn-danger btn-delete" data-id="{{$data->id_produk}}">
                                 <i class="fa fa-trash"></i> Hapus
-                            </button>
+                            </button> --}}
                         </td>
                     </tr>
                     @endforeach

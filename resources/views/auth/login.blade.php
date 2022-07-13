@@ -14,7 +14,7 @@
             <div class="">
                 <!-- CONTAINER OPEN -->
                 <div class="col col-login mx-auto mt-7">
-                    {{-- <div class="text-center"> <a href="{{route('main')}}"><img src="{{asset('assets/images/logo.jpeg')}}" style="height: 130px"
+                    {{-- <div class="text-center"> <a href="{{route('main')}}"><img src="{{asset('assets/images/logo-white.png')}}" style="height: 130px"
                                 class="header-brand-img" alt=""></a> </div> --}}
                 </div>
                 <div class="row">
@@ -28,6 +28,7 @@
                                             <ul class="nav panel-tabs">
                                                 <li class="mx-0 tab-login"><a href="#tab5" class="active"
                                                         data-bs-toggle="tab">Login</a></li>
+                                                <li class="mx-0 tab-register"><a href="#tab6" data-bs-toggle="tab">Daftar</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -64,6 +65,73 @@
                                                         class="login100-form-btn btn-primary" type="submit"> Login </button> </div>
                                                 </form>
                                             </div>
+                                            <div class="tab-pane" id="tab6">
+                                                <form method="POST" action="{{route('main.register')}}" id="formRegister" enctype="multipart/form-data">
+                                                {{-- <form method="POST"  id="formRegister" enctype="multipart/form-data"> --}}
+                                                    @csrf
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <div class="form-group wrap-input100">
+                                                                <label class="form-label">Nama</label>
+                                                                <input type="text" class="input100 form-control ms-0" name="nama" id="nama" placeholder="nama"> 
+                                                            </div>
+                                                            <div class="form-group wrap-input100">
+                                                                <label class="form-label">Tempat Lahir</label>
+                                                                <input type="text" class="input100 form-control ms-0" name="tempat_lahir" id="tempatLahir" placeholder="tempat lahir"> 
+                                                            </div>
+                                                            <div class="form-group wrap-input100">
+                                                                <label class="form-label">Tanggal Lahir</label>
+                                                                <input type="date" class="input100 form-control ms-0" name="tanggal_lahir" id="tanggalLahir" placeholder="tanggal lahir"> 
+                                                            </div>
+                                                            <div class="form-group wrap-input100">
+                                                                <label class="form-label">Jenis Kelamin</label>
+                                                                <select name="jenis_kelamin" id="jenisKelamin" class="input100 form-control ms-0">
+                                                                    <option value="">Pilih Jenis Kelamin</option>
+                                                                    <option value="1">Laki-Laki</option>
+                                                                    <option value="0">Perempuan</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group wrap-input100">
+                                                                <label class="form-label">Alamat</label>
+                                                                <input type="text" class="input100 form-control ms-0" name="alamat" id="alamat" placeholder="alamat"> 
+                                                            </div>
+                                                            <div class="form-group wrap-input100">
+                                                                <label class="form-label">No. HP</label>
+                                                                <input type="text" class="input100 form-control ms-0" name="no_hp" id="noHp" placeholder="no. hp"> 
+                                                            </div>
+                                                            <div class="form-group wrap-input100">
+                                                                <label class="form-label">Foto</label>
+                                                                <input type="file" class="input100 form-control ms-0" name="foto" id="foto" placeholder="foto"> 
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="form-group wrap-input100">
+                                                                <label class="form-label">Email</label>
+                                                                <input type="text" class="input100 form-control ms-0" name="email" id="email" placeholder="email"> 
+                                                            </div>
+                                                            <div class="form-group wrap-input100">
+                                                                <label class="form-label">Password</label>
+                                                                <input type="password" class="input100 form-control ms-0" name="password" id="password" placeholder="password"> 
+                                                            </div>
+                                                            <div class="form-group wrap-input100">
+                                                                <label class="form-label">Re-Password</label>
+                                                                <input type="password" class="input100 form-control ms-0" name="password_confirmation" id="passwordConfirmation" placeholder="konfirmasi password"> 
+                                                            </div>
+                                                            <div class="form-group wrap-input100">
+                                                                <label class="form-label">Jenis Keanggotaan</label>
+                                                                <select name="role" id="role" class="input100 form-control ms-0">
+                                                                    <option value="">Pilih Jenis Keanggotaan</option>
+                                                                    @foreach ($role as $role)
+                                                                        <option value="{{$role->id_role}}">{{$role->nama}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                        <button type="submit" class="btn btn-primary btn-block">
+                                                        <span>Register</span></button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -75,6 +143,39 @@
         </div> <!-- End PAGE -->
     </div> <!-- BACKGROUND-IMAGE CLOSED -->
     @include('templates.partials.script')
+    <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
+    {!! JsValidator::formRequest('App\Http\Requests\PendaftaranRequest', '#formRegister'); !!}
+
+    <script>
+        $(document).ready(function () {
+            $('.tab-register').click(function(){
+                $('.main-card').addClass('col-6');
+            })
+            $('.tab-login').click(function(){
+                $('.main-card').removeClass('col-6');
+            })
+
+            @if (session('loggin_failed'))
+                toastr.error('{{ session('loggin_failed') }}');
+            @endif
+
+            @if (session('status') == 'success')
+                toastr.options =
+                {
+                    "closeButton" : true,
+                    "progressBar" : true
+                }
+                toastr.success("{{ session('message') }}");
+            @elseif (session('status') == 'error')
+                toastr.options =
+                {
+                    "closeButton" : true,
+                    "progressBar" : true
+                }
+                toastr.error("{{ session('message') }}");
+            @endif
+        });
+    </script>
 </body>
 
 </html>

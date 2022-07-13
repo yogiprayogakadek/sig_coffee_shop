@@ -17,6 +17,9 @@ Route::prefix('/')->namespace('Main')->group(function(){
         Route::get('/keyword/{keyword}', 'MainController@searchKeyword')->name('keyword');
     });
 
+    // Register
+    Route::post('/', 'MainController@register')->name('main.register');
+
     Route::middleware('auth')->group(function() {
         Route::prefix('/dashboard')->name('dashboard.')->group(function(){
             Route::get('/', 'DashboardController@index')->name('index');
@@ -32,6 +35,7 @@ Route::prefix('/admin')->namespace('Admin')->name('admin.')->middleware('auth')-
         Route::get('/print', 'OwnerController@print')->name('owner.print');
         Route::get('/detail/{id}', 'OwnerController@detail')->name('owner.detail');
         Route::get('/delete/{id}', 'OwnerController@delete')->name('owner.delete');
+        Route::post('/change-status', 'OwnerController@changeStatus')->name('owner.change-status');
     });
 });
 
@@ -46,6 +50,7 @@ Route::prefix('/owner')->namespace('Owner')->name('owner.')->middleware('auth')-
         Route::get('/print', 'KedaiController@print')->name('print');
         Route::get('/detail/{id}', 'KedaiController@detail')->name('detail');
         Route::get('/delete/{id}', 'KedaiController@delete')->name('delete');
+        Route::post('/change-status', 'KedaiController@changeStatus')->name('change-status');
     });
 
     Route::prefix('/produk')->name('produk.')->group(function(){
@@ -57,6 +62,7 @@ Route::prefix('/owner')->namespace('Owner')->name('owner.')->middleware('auth')-
         Route::post('/update', 'ProdukController@update')->name('update');
         Route::get('/print', 'ProdukController@print')->name('print');
         Route::get('/delete/{id}', 'ProdukController@delete')->name('delete');
+        Route::post('/change-status', 'ProdukController@changeStatus')->name('change-status');
     });
 
     Route::prefix('/promo')->name('promo.')->group(function(){
@@ -68,6 +74,7 @@ Route::prefix('/owner')->namespace('Owner')->name('owner.')->middleware('auth')-
         Route::post('/update', 'PromoController@update')->name('update');
         Route::get('/print', 'PromoController@print')->name('print');
         Route::get('/delete/{id}', 'PromoController@delete')->name('delete');
+        Route::post('/change-status', 'PromoController@changeStatus')->name('change-status');
     });
 });
 

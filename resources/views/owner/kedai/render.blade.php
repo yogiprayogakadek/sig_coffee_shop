@@ -21,6 +21,7 @@
                 <th>Longitude</th>
                 {{-- <th>Alamat</th> --}}
                 <th>Foto</th>
+                <th>Status</th>
                 <th>Aksi</th>
             </thead>
             <tbody>
@@ -35,12 +36,18 @@
                         <img src="{{asset($kedai->foto)}}" class="img-rounded" width="100px">
                     </td>
                     <td>
+                        <select name="status" id="status" class="form-control" data-id="{{$kedai->id_kedai}}" data-status="{{$kedai->status}}">
+                            <option value="1" {{$kedai->status == '1' ? 'selected' : ''}}>Aktif</option>
+                            <option value="0" {{$kedai->status == '0' ? 'selected' : ''}}>Tidak Aktif</option>
+                        </select>
+                    </td>
+                    <td>
                         <button type="button" class="btn btn-success btn-sm btn-edit" data-id="{{$kedai->id_kedai}}">
                             <i class="fa fa-edit"></i>
                         </button>
-                        <button type="button" class="btn btn-danger btn-sm btn-delete" data-id="{{$kedai->id_kedai}}">
+                        {{-- <button type="button" class="btn btn-danger btn-sm btn-delete" data-id="{{$kedai->id_kedai}}">
                             <i class="fa fa-trash"></i>
-                        </button>
+                        </button> --}}
                     </td>
                 </tr>
                 @endforeach

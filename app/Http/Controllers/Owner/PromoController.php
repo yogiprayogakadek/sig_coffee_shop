@@ -264,4 +264,30 @@ class PromoController extends Controller
             ]);
         }
     }
+
+    public function changeStatus(Request $request)
+    {
+        try {
+            // dd($request->all());
+            $status = $request->status;
+            $id_promo = $request->id_promo;
+            // dd($id_produk);
+            $promo = Promo::find($id_promo);
+            $promo->update([
+                'status' => $status
+            ]);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Status berhasil di ubah',
+                'title' => 'Berhasil'
+            ]);
+        } catch(\Exception $e){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Status gagal di ubah',
+                'title' => 'Gagal'
+            ]);
+        }
+    }
 }

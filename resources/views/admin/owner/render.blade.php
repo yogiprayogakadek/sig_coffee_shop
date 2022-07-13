@@ -17,7 +17,8 @@
                 <th>Jenis Kelamin</th>
                 <th>Alamat</th>
                 <th>Foto</th>
-                <th>Aksi</th>
+                <td>Status</td>
+                {{-- <th>Aksi</th> --}}
             </thead>
             <tbody>
                 @foreach ($owner as $owner)
@@ -26,16 +27,22 @@
                     <td>{{$owner->nama}}</td>
                     <td>{{$owner->tempat_lahir}}</td>
                     <td>{{$owner->tanggal_lahir}}</td>
-                    <td>{{$owner->jenis_kelamin}}</td>
+                    <td>{{$owner->jenis_kelamin == '1' ? 'Laki - Laki' : 'Perempuan'}}</td>
                     <td>{{$owner->alamat}}</td>
                     <td>
                         <img src="{{asset($owner->foto)}}" class="img-rounded" width="100px">
                     </td>
                     <td>
+                        <select name="status" id="status" class="form-control" data-id="{{$owner->id_user}}" data-status="{{$owner->is_active}}">
+                            <option value="1" {{$owner->is_active == '1' ? 'selected' : ''}}>Aktif</option>
+                            <option value="0" {{$owner->is_active == '0' ? 'selected' : ''}}>Tidak Aktif</option>
+                        </select>
+                    </td>
+                    {{-- <td>
                         <button type="button" class="btn btn-danger btn-sm btn-delete" data-id="{{$owner->id_user}}">
                             <i class="fa fa-trash"></i>
                         </button>
-                    </td>
+                    </td> --}}
                 </tr>
                 @endforeach
             </tbody>

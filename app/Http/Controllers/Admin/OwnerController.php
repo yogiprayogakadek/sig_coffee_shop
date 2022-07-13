@@ -57,5 +57,30 @@ class OwnerController extends Controller
 
         return response()->json($view);
     }
+
+    public function changeStatus(Request $request)
+    {
+        try {
+            $status = $request->status;
+            $id_user = $request->id_user;
+            // dd($id_user);
+            $user = User::find($id_user);
+            $user->update([
+                'is_active' => $status
+            ]);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Status berhasil di ubah',
+                'title' => 'Berhasil'
+            ]);
+        } catch(\Exception $e){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Status gagal di ubah',
+                'title' => 'Gagal'
+            ]);
+        }
+    }
 }
 

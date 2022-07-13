@@ -231,4 +231,46 @@ $(document).ready(function () {
             }
         })
     });
+
+    // on change status
+    $('body').on('change', '#status', function() {
+        let idUser = $(this).data('id');
+        let currentStatus = $(this).data('status');
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "/admin/owner/change-status",
+            data: {
+                id_user: idUser,
+                status: $(this).val()
+            },
+            // processData: false,
+            // contentType: false,
+            // cache: false,
+            success: function(response) {
+                if(response.status != 'success') {
+                    $('#status').val(currentStatus);
+                }
+                getData();
+                Swal.fire(
+                    response.title,
+                    response.message,
+                    response.status
+                );
+            },
+            error: function(response) {
+                Swal.fire(
+                    response.title,
+                    response.message,
+                    response.status
+                );
+            }
+        });
+    });
 });

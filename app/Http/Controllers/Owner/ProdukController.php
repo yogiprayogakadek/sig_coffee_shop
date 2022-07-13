@@ -269,4 +269,29 @@ class ProdukController extends Controller
             ]);
         }
     }
+
+    public function changeStatus(Request $request)
+    {
+        try {
+            $status = $request->status;
+            $id_produk = $request->id_produk;
+            // dd($id_produk);
+            $produk = Produk::find($id_produk);
+            $produk->update([
+                'status' => $status
+            ]);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Status berhasil di ubah',
+                'title' => 'Berhasil'
+            ]);
+        } catch(\Exception $e){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Status gagal di ubah',
+                'title' => 'Gagal'
+            ]);
+        }
+    }
 }

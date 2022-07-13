@@ -1,7 +1,7 @@
 @extends('templates.master')
 
-@section('title', 'Coffee Shop')
-@section('pwd', 'Coffee Shop')
+@section('title', 'Kedai')
+@section('pwd', 'Kedai')
 @section('sub-pwd', 'Kedai')
 @push('css')
 <meta name="csrf-token" content="{{ csrf_token() }}">
