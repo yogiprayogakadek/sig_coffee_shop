@@ -140,12 +140,12 @@ class MainController extends Controller
                 User::create($user);
             });
             if($request->role == $role->id_role) {
-                return redirect()->route('main.register.success')->with([
+                return redirect()->back()->with([
                     'message' => 'Pendaftaran berhasil, silahkan menunggu konfirmasi dari admin',
                     'title' => 'Berhasil'
                 ]);
             } else {
-                return redirect()->route('main.register.success')->with([
+                return redirect()->back()->with([
                     'message' => 'Pendaftaran berhasil, silahkan login',
                     'title' => 'Berhasil'
                 ]);
@@ -157,6 +157,7 @@ class MainController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with([
                 'message' => 'Pendaftaran gagal',
+                // 'message' => $e->getMessage(),
                 'status' => 'error',
             ]);
             // return $e->getMessage();
