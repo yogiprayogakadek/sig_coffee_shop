@@ -18,7 +18,7 @@ class MainController extends Controller
     public function index()
     {
         $kedaiAcctive = Kedai::where('status', 1)->pluck('id_kedai');
-        $ulasan = Ulasan::whereIn('id_kedai', $kedaiAcctive)->get();
+        $ulasan = Ulasan::whereIn('id_kedai', $kedaiAcctive)->where('status', true)->get();
         $kedai = Kedai::take(4)->where('status', 1)->get();
         return view('main.mainpage.landing.index')->with([
             'kedai' => $kedai,
@@ -28,7 +28,7 @@ class MainController extends Controller
 
     public function detail($id)
     {
-        $ulasan = Ulasan::where('id_kedai', $id)->get();
+        $ulasan = Ulasan::where('id_kedai', $id)->where('status', true)->get();
         $kedai = Kedai::with('promo', 'produk')->find($id);
 
         if(auth()->check()) {

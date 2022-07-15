@@ -22,7 +22,7 @@
     <div class="cd-section" id="contactus">
         <!--     *********    CONTACT US 1     *********      -->
         <div class="contactus-1 section-image"
-            style="background-image: url('{{asset('assets/frontend/landing-page/img/examples/city-profile.jpg')}}')">
+            style="background-image: url('{{asset('assets/frontend/landing-page/img/background/4.jpg')}}')">
             <div class="container">
                 @yield('content-2')
             </div>

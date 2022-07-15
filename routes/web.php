@@ -59,6 +59,7 @@ Route::prefix('/owner')->namespace('Owner')->name('owner.')->middleware('auth')-
         Route::get('/render', 'ProdukController@render')->name('render');
         Route::post('/store', 'ProdukController@store')->name('store');
         Route::get('/edit/{id}', 'ProdukController@edit')->name('edit');
+        Route::get('/detail/{id}', 'ProdukController@detail')->name('detail');
         Route::post('/update', 'ProdukController@update')->name('update');
         Route::get('/print', 'ProdukController@print')->name('print');
         Route::get('/delete/{id}', 'ProdukController@delete')->name('delete');
@@ -75,6 +76,12 @@ Route::prefix('/owner')->namespace('Owner')->name('owner.')->middleware('auth')-
         Route::get('/print', 'PromoController@print')->name('print');
         Route::get('/delete/{id}', 'PromoController@delete')->name('delete');
         Route::post('/change-status', 'PromoController@changeStatus')->name('change-status');
+    });
+
+    Route::prefix('/ulasan')->name('ulasan.')->group(function(){
+        Route::get('/', 'UlasanController@index')->name('index');
+        Route::get('/render', 'UlasanController@render')->name('render');
+        Route::post('/change-status', 'UlasanController@changeStatus')->name('change-status');
     });
 });
 

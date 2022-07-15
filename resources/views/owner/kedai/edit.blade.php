@@ -10,6 +10,17 @@
                 </div>
             </div>
             <div class="card-body">
+                @can('admin')
+                <div class="form-group">
+                    <label for="owner">Pemilik Kedai</label>
+                    <select name="owner" class="owner form-control" id="owner">
+                        @foreach ($user as $key => $value)
+                            <option value="{{$key}}" {{$key == $kedai->owner->id_user ? 'selected' : ''}}>{{$value}}</option>
+                        @endforeach
+                    </select>
+                    <div class="invalid-feedback error-owner"></div>
+                </div>
+                @endcan
                 <div class="form-group">
                     <label for="nama-kedai">Nama Kedai</label>
                     <input type="hidden" name="id_kedai" value="{{$kedai->id_kedai}}">

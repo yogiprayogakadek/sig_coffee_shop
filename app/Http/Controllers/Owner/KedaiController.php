@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Owner;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\KedaiRequest;
 use App\Models\Kedai;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Image;
 
@@ -32,9 +34,17 @@ class KedaiController extends Controller
 
     public function create()
     {
-        $view = [
-            'data' => view('owner.kedai.create')->render()
-        ];
+        $role = Role::where('nama', 'Owner')->first();
+        if(auth()->user()->role->nama == 'Admin') {
+            $user = User::where('id_role', $role->id_role)->pluck('nama', 'id_user');
+            $view = [
+                'data' => view('owner.kedai.create', compact('user'))->render()
+            ];
+        } else {
+            $view = [
+                'data' => view('owner.kedai.create')->render()
+            ];
+        }
 
         return response()->json($view);
     }
@@ -43,12 +53,18 @@ class KedaiController extends Controller
     {
         try {
             $data = [
-                'id_user' => auth()->user()->id_user,
+                // 'id_user' => auth()->user()->id_user,
                 'nama_kedai' => $request->nama_kedai,
                 'alamat_kedai' => $request->alamat_kedai,
                 'latitude' => $request->latitude,
                 'longitude' => $request->longitude,
             ];
+
+            if(auth()->user()->role->nama == 'Admin') {
+                $data['id_user'] = $request->owner;
+            } else {
+                $data['id_user'] = auth()->user()->id_user;
+            }
 
             if ($request->hasFile('foto')) {
                 //get filename with extension
@@ -125,10 +141,21 @@ class KedaiController extends Controller
 
     public function edit($id)
     {
+        $role = Role::where('nama', 'Owner')->first();
         $kedai = Kedai::find($id);
-        $view = [
-            'data' => view('owner.kedai.edit', compact('kedai'))->render()
-        ];
+        if(auth()->user()->role->nama == 'Admin') {
+            $user = User::where('id_role', $role->id_role)->pluck('nama', 'id_user');
+            $view = [
+                'data' => view('owner.kedai.edit', compact('kedai', 'user'))->render()
+            ];
+            
+        } else {
+            // $kedai = Kedai::find($id);
+            $view = [
+                'data' => view('owner.kedai.edit', compact('kedai'))->render()
+            ];
+        }
+
 
         return response()->json($view);
     }
@@ -138,12 +165,18 @@ class KedaiController extends Controller
         try {
             $kedai = Kedai::find($request->id_kedai);
             $data = [
-                'id_user' => auth()->user()->id_user,
+                // 'id_user' => auth()->user()->id_user,
                 'nama_kedai' => $request->nama_kedai,
                 'alamat_kedai' => $request->alamat_kedai,
                 'latitude' => $request->latitude,
                 'longitude' => $request->longitude,
             ];
+
+            if(auth()->user()->role->nama == 'Admin') {
+                $data['id_user'] = $request->owner;
+            } else {
+                $data['id_user'] = auth()->user()->id_user;
+            }
 
             if ($request->hasFile('foto')) {
                 unlink($kedai->foto);

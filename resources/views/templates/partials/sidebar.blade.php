@@ -43,6 +43,10 @@
                         href="{{route('owner.promo.index')}}"><i class="side-menu__icon fe fe-globe"></i><span
                             class="side-menu__label">Data Promo</span>
                     </a>
+                    <a class="side-menu__item has-link {{Request::is('owner/ulasan') ? 'active' : '' }}" data-bs-toggle="slide"
+                        href="{{route('owner.ulasan.index')}}"><i class="side-menu__icon fe fe-message-circle"></i><span
+                            class="side-menu__label">Data Ulasan</span>
+                    </a>
 
                     {{--
                     <a class="side-menu__item has-link {{Request::is('barang') ? 'active' : '' }}" data-bs-toggle="slide"

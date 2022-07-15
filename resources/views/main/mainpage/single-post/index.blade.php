@@ -15,26 +15,6 @@ SIG Coffee Shop - {{$kedai->nama_kedai}}
                 </div>
             </div>
         </div>
-        {{-- Accommodation --}}
-        {{-- <div class="row">
-            <div class="col-md-4 ml-auto mr-auto">
-                <h2 class="text-center title">Akomodasi</h2>
-                <div class="card card-pricing card-plain">
-                    <div class="card-body ">
-                        <ul>
-                            @forelse ($accommodations as $item)
-                            <li>
-                                <b>{{$loop->iteration}}</b> {{$item->name}}
-                            </li>
-                            @empty
-                            <h3 class="text-center font-weight-bold">Belum ada informasi akomodasi untuk tempat ini.
-                            </h3>
-                            @endforelse
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
 
         {{-- Maps --}}
         <div class="row">
@@ -64,7 +44,7 @@ SIG Coffee Shop - {{$kedai->nama_kedai}}
                                 <div class="card-body">
                                     <h4 class="card-title" style="text-align: center">{{$produk->nama_produk}}</h4>
                                     <p class="card-description">
-                                        <img src="{{asset($produk->foto)}}" class="img-thumbnail">
+                                        <img src="{{asset($produk->foto)}}" class="img-thumbnail img-detail" style="cursor: pointer" data-id="{{$produk->id_produk}}">
                                     </p>
                                     {{-- <p class="card-description">
                                         Dapatkan potongan sebesar <b>{{$produk->potongan}} %</b>
@@ -113,7 +93,7 @@ SIG Coffee Shop - {{$kedai->nama_kedai}}
             </div>
         </div>
 
-        {{-- Gallery --}}
+        {{-- Ulasan --}}
         <div class="row">
             <div class="col-md-12 ml-auto mr-auto">
                 @can('guest')
@@ -149,6 +129,29 @@ SIG Coffee Shop - {{$kedai->nama_kedai}}
             </div>
         </div>
 
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true" data-backdrop='false'>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                    <div class="modal-header">
+                            <h5 class="modal-title">Title</h5>
+                                <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close">
+                                    <span class="fa fa-times"></span>
+                                </button>
+                        </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="img"></div>
+                        <div class="desc"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
@@ -197,6 +200,22 @@ SIG Coffee Shop - {{$kedai->nama_kedai}}
 
 @section('script')
 <script>
+    function assets(url) {
+        var url = '{{ url("") }}/' + url;
+        return url;
+    }
+
+    $('body').on('click', '.img-detail', function() {
+        let id = $(this).data('id');
+        $('#modal').modal('show');
+
+        $.get("/owner/produk/detail/"+id, function (data) {
+            $('.modal-title').html(data.nama_produk + ' - ' + '{{convertToRupiah($produk->harga)}}');
+            $('.img').html('<img src="'+assets(data.foto)+'" class="img-fluid">');
+            $('.desc').html('<br>' + data.deskripsi);
+        });
+    })
+
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(initMap);
     } else {
