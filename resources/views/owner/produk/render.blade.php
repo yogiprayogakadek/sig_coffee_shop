@@ -2,14 +2,13 @@
     <div class="card">
         <div class="card-header">
             <div class="card-title">Data Produk</div>
+            @can('owner')
             <div class="card-options">
-                <button class="btn btn-primary btn-add">
+                <button class="btn btn-primary btn-add" style="margin-left: 2px">
                     <i class="fa fa-plus"></i> Tambah
                 </button>
-                {{-- <button class="btn btn-success btn-print" style="margin-left: 2px">
-                    <i class="fa fa-print"></i> Cetak
-                </button> --}}
             </div>
+            @endcan
         </div>
         <div class="card-body">
             <table class="table table-bordered text-nowrap border-bottom dataTable no-footer" role="grid"
@@ -22,7 +21,9 @@
                         <th>Harga</th>
                         <th>Foto</th>
                         <td>Status</td>
+                        @can('owner')
                         <th>Aksi</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody>
@@ -43,6 +44,7 @@
                                 <option value="0" {{$data->status == '0' ? 'selected' : ''}}>Tidak Aktif</option>
                             </select>
                         </td>
+                        @can('owner')   
                         <td>
                             <button class="btn btn-primary btn-edit" data-id="{{$data->id_produk}}">
                                 <i class="fa fa-edit"></i> Edit
@@ -51,6 +53,7 @@
                                 <i class="fa fa-trash"></i> Hapus
                             </button> --}}
                         </td>
+                        @endcan
                     </tr>
                     @endforeach
                 </tbody>

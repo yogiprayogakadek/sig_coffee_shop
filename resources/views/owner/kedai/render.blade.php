@@ -1,15 +1,13 @@
 <div class="card">
     <div class="card-header">
         <div class="card-title">Data Kedai</div>
+        @can('owner')
         <div class="card-options">
-            {{-- <button class="btn btn-success btn-print">
-                <i class="fa fa-print"></i> Cetak
-            </button> --}}
-
             <button class="btn btn-primary btn-add" style="margin-left: 2px">
                 <i class="fa fa-plus"></i> Tambah
             </button>
         </div>
+        @endcan
     </div>
     <div class="card-body">
         <table class="table table-hover table-striped" id="tableData">
@@ -22,7 +20,9 @@
                 <th>Foto</th>
                 <th>Suasana Kedai</th>
                 <th>Status</th>
+                @can('owner')
                 <th>Aksi</th>
+                @endcan
             </thead>
             <tbody>
                 @foreach ($kedai as $kedai)
@@ -46,11 +46,13 @@
                             <option value="0" {{$kedai->status == '0' ? 'selected' : ''}}>Tidak Aktif</option>
                         </select>
                     </td>
+                    @can('owner')   
                     <td>
                         <button type="button" class="btn btn-success btn-sm btn-edit" data-id="{{$kedai->id_kedai}}">
                             <i class="fa fa-edit"></i>
                         </button>
                     </td>
+                    @endcan
                 </tr>
                 @endforeach
             </tbody>

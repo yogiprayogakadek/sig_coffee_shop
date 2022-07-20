@@ -53,39 +53,73 @@ class KedaiController extends Controller
     {
         try {
             $kedai = Kedai::where('id_kedai', $request->id_kedai)->first();
-            if($request->hasFile('photos')) {
-                for($i = 0; $i < count($request->file('photos')); $i++) {
-                    //get filename with extension
-                    $filenamewithextension = $request->file('photos')[$i]->getClientOriginalName();
-    
-                    //get file extension
-                    $extension = $request->file('photos')[$i]->getClientOriginalExtension();
-    
-                    //filename to store
-                    $filenametostore = $kedai->nama_kedai . '-' . ($i + 1) . '-' . time() . '.' . $extension;
-                    $save_path = 'assets/uploads/media/kedai/suasana';
-    
-                    if (!file_exists($save_path)) {
-                        mkdir($save_path, 666, true);
-                    }
-                    $foto[] = [
-                        // [
-                            'id' => ($i + 1),
-                            'foto' => $save_path . '/' . $filenametostore,
-                        // ]
-                    ];
-    
-                    $img = Image::make($request->file('photos')[$i]->getRealPath());
-                    $img->resize(512, 512);
-                    $img->save($save_path . '/' . $filenametostore);
-                }
-                $newData = json_encode($foto);
-                // $data['foto'] = $newData;
-            }
-            $kedai->update([
-                'suasana_kedai' => $newData
-            ]);
 
+            if($kedai->suasana_kedai == null) {
+                if($request->hasFile('photos')) {
+                    for($i = 0; $i < count($request->file('photos')); $i++) {
+                        //get filename with extension
+                        $filenamewithextension = $request->file('photos')[$i]->getClientOriginalName();
+        
+                        //get file extension
+                        $extension = $request->file('photos')[$i]->getClientOriginalExtension();
+        
+                        //filename to store
+                        $filenametostore = $kedai->nama_kedai . '-' . ($i + 1) . '-' . time() . '.' . $extension;
+                        $save_path = 'assets/uploads/media/kedai/suasana';
+        
+                        if (!file_exists($save_path)) {
+                            mkdir($save_path, 666, true);
+                        }
+                        $foto[] = [
+                            // [
+                                'id' => ($i + 1),
+                                'foto' => $save_path . '/' . $filenametostore,
+                            // ]
+                        ];
+        
+                        $img = Image::make($request->file('photos')[$i]->getRealPath());
+                        $img->resize(512, 512);
+                        $img->save($save_path . '/' . $filenametostore);
+                    }
+                    $newData = json_encode($foto);
+                    // $data['foto'] = $newData;
+                }
+                $kedai->update([
+                    'suasana_kedai' => $newData
+                ]);
+            } else {
+                $foto = json_decode($kedai->suasana_kedai, true);
+                if($request->hasFile('photos')) {
+                    for($i = 0; $i < count($request->file('photos')); $i++) {
+                        //get filename with extension
+                        $filenamewithextension = $request->file('photos')[$i]->getClientOriginalName();
+        
+                        //get file extension
+                        $extension = $request->file('photos')[$i]->getClientOriginalExtension();
+        
+                        //filename to store
+                        $filenametostore = $kedai->nama_kedai . '-' . (($i + 1)+count($foto)) . '-' . time() . '.' . $extension;
+                        $save_path = 'assets/uploads/media/kedai/suasana';
+        
+                        if (!file_exists($save_path)) {
+                            mkdir($save_path, 666, true);
+                        }
+
+                        $foto[] = [
+                            'id' => ($i + 1)+count($foto),
+                            'foto' => $save_path . '/' . $filenametostore,
+                        ];
+        
+                        $img = Image::make($request->file('photos')[$i]->getRealPath());
+                        $img->resize(512, 512);
+                        $img->save($save_path . '/' . $filenametostore);
+                    }
+                    $newData = json_encode($foto);
+                }
+                $kedai->update([
+                    'suasana_kedai' => $newData
+                ]);
+            }
             return response()->json([
                 'status' => 'success',
                 'message' => 'Data berhasil tersimpan',
@@ -299,7 +333,7 @@ class KedaiController extends Controller
         }
     }
 
-    public function Image($id)
+    public function delete($id)
     {
         try {
             $kedai = Kedai::find($id);
