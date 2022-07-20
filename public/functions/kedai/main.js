@@ -204,36 +204,6 @@ $(document).ready(function () {
         })
     });
 
-    $('body').on('click', '.btn-print', function () {
-        Swal.fire({
-            title: 'Cetak data kategori?',
-            text: "Laporan akan dicetak",
-            icon: 'success',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, cetak!'
-        }).then((result) => {
-            if (result.value) {
-                var mode = "iframe"; //popup
-                var close = mode == "popup";
-                var options = {
-                    mode: mode,
-                    popClose: close,
-                    popTitle: 'Sarpras',
-                };
-                $.ajax({
-                    type: "GET",
-                    url: "/owner/kedai/print/",
-                    dataType: "json",
-                    success: function (response) {
-                        document.title= 'Laporan - ' + new Date().toJSON().slice(0,10).replace(/-/g,'/')
-                        $(response.data).find("div.printableArea").printArea(options);
-                    }
-                });
-            }
-        })
-    });
 
     // on change status
     $('body').on('change', '#status', function() {
@@ -272,5 +242,115 @@ $(document).ready(function () {
                 );
             }
         });
+    });
+
+    $('body').on('click', '.btn-add-suasana', function () {
+        let id = $(this).data('id')
+        $('#modalSuasana').find('#id_kedai').val(id)
+        $('#modalSuasana').modal('show');
+    });
+
+    $('body').on('click', '.btn-upload', function () {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        let form = $('#formUpload')[0]
+        let data = new FormData(form)
+        if($('#photos').val() == '') {
+            Swal.fire({
+                title: 'Pilih file terlebih dahulu!',
+                text: "",
+                icon: 'error',
+                confirmButtonText: 'Ok'
+            });
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "/owner/kedai/upload",
+                data: data,
+                processData: false,
+                contentType: false,
+                cache: false,
+                beforeSend: function () {
+                    $('.btn-upload').attr('disable', 'disabled')
+                    $('.btn-upload').html('<i class="fa fa-spin fa-spinner"></i>')
+                },
+                complete: function () {
+                    $('.btn-upload').removeAttr('disable')
+                    $('.btn-upload').html('Simpan')
+                },
+                success: function (response) {
+                    $('#formUpload').trigger('reset')
+                    $(".invalid-feedback").html('')
+                    getData();
+                    Swal.fire(
+                        response.title,
+                        response.message,
+                        response.status
+                    );
+                    $('#modalSuasana').modal('hide');
+                },
+                error: function (error) {
+                    console.log("Error", error);
+                }
+            });
+        }
+    });
+
+    $('body').on('click', '.btn-edit-suasana', function () {
+        let id = $(this).data('id')
+        $('#modalSuasana').find('#id_kedai').val(id)
+        $('#modalSuasana').modal('show');
+        
+        $.get("/owner/kedai/detail/"+id,function (data) {
+            $.each(data, function (index, value) { 
+                let image = '<div class="col-md-3">'+
+                                '<div class="card-body">'+
+                                    '<p class="card-description">'+
+                                        '<img src="'+assets(value.foto)+'" class="img-thumbnail delete-image" style="cursor: pointer" data-id="'+value.id+'">'+
+                                    '</p>'+
+                                '</div>'+
+                            '</div>';
+                $('.photos').append(image)
+            });
+            $('#modalSuasana').find('.noted').text('Klik gambar untuk menghapus')
+        });
+    });
+
+    $('body').on('click', '.delete-image', function () {
+        let id_kedai = $('#modalSuasana').find('#id_kedai').val()
+        let id_foto = $(this).data('id')
+
+        Swal.fire({
+            title: 'Apakah anda yakin?',
+            text: "Data yang sudah dihapus tidak dapat dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, hapus!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "get",
+                    url: "/owner/kedai/delete-image/" + id_kedai + "/" + id_foto,
+                    dataType: "json",
+                    success: function (response) {
+                        $('#modalSuasana').modal('hide');
+                        getData();
+                        Swal.fire(
+                            response.title,
+                            response.message,
+                            response.status
+                        );
+                    },
+                    error: function (error) {
+                        console.log("Error", error);
+                    },
+                });
+            }
+        })
     });
 });

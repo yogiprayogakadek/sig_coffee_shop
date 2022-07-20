@@ -25,6 +25,7 @@ class UlasanRequest extends FormRequest
     {
         $rules = [
             'feedback' => 'required',
+            'rating' => 'required',
         ];
 
         return $rules;
@@ -41,6 +42,7 @@ class UlasanRequest extends FormRequest
     {
         return [
             'feedback' => 'Ulasan',
+            'rating' => 'Rating',
         ];
     }
 }

@@ -16,6 +16,29 @@ SIG Coffee Shop - {{$kedai->nama_kedai}}
             </div>
         </div>
 
+        {{-- Suasana Kedai --}}
+        <div class="row">
+            <div class="col-md-12 ml-auto mr-auto">
+                <h2 class="text-center title">Suasana Kedai</h2>
+                <div class="row">
+                    @forelse (json_decode($kedai->suasana_kedai) as $suasana)
+                        <div class="col-md-4 mr-auto ml-auto">
+                            {{-- <div class="card"> --}}
+                                <div class="card-body">
+                                    <p class="card-description">
+                                        <img src="{{asset($suasana->foto)}}" class="img-thumbnail">
+                                    </p>
+                                </div>
+                            {{-- </div> --}}
+                        </div>
+                    @empty
+                    <h2 class="text-center title">Belum ada data</h2>
+                    @endforelse
+                </div>
+                
+            </div>
+        </div>
+
         {{-- Maps --}}
         <div class="row">
             <div class="col-md-12 ml-auto mr-auto">
@@ -114,6 +137,13 @@ SIG Coffee Shop - {{$kedai->nama_kedai}}
                                 <textarea class="form-control" rows="5" id="feedback" name="feedback"></textarea>
                                 <div class="invalid-feedback error-feedback"></div>
                             </div>
+                            <div class="form-group label-floating bmd-form-group">
+                                @for ($i = 1; $i < 6; $i++)
+                                    <i class="fa fa-star-o fa-rating fa-2x" id="rating-{{$i}}" data-rating="{{$i}}"></i>
+                                @endfor
+                                <input type="hidden" name="rating" id="rating" value="0">
+                                <div class="invalid-feedback error-rating"></div>
+                            </div>
                         </form>
                         <div class="media-footer">
                             <a href="javascript:void(0)"
@@ -131,7 +161,7 @@ SIG Coffee Shop - {{$kedai->nama_kedai}}
 
     </div>
 
-    <!-- Modal -->
+    <!-- ModalProduk -->
     <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true" data-backdrop='false'>
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -205,16 +235,17 @@ SIG Coffee Shop - {{$kedai->nama_kedai}}
         return url;
     }
 
+    @if ($jumlah_produk > 0)
     $('body').on('click', '.img-detail', function() {
         let id = $(this).data('id');
         $('#modal').modal('show');
-
         $.get("/owner/produk/detail/"+id, function (data) {
             $('.modal-title').html(data.nama_produk + ' - ' + '{{convertToRupiah($produk->harga)}}');
             $('.img').html('<img src="'+assets(data.foto)+'" class="img-fluid">');
             $('.desc').html('<br>' + data.deskripsi);
         });
     })
+    @endif
 
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(initMap);
@@ -273,6 +304,21 @@ SIG Coffee Shop - {{$kedai->nama_kedai}}
         });
     }
 
+    $('.fa-rating').on('click', function(){
+        let rating = $(this).data('rating');
+        $('#rating').val(rating);
+        for (let i = 1; i < 6; i++) {
+            if(i <= rating){
+                $('#rating-' + i).removeClass('fa fa-star-o');
+                $('#rating-' + i).addClass('fa fa-star');
+            } else {
+                $('#rating-' + i).removeClass('fa fa-star');
+                $('#rating-' + i).addClass('fa fa-star-o');
+            }
+        }
+    });
+
+
     // feedback
     let url = window.location.href.split('detail/');
     $('body').on('click', '.btn-feedback', function (e) {
@@ -284,6 +330,7 @@ SIG Coffee Shop - {{$kedai->nama_kedai}}
         let form = $('#formFeedback')[0]
         let data = new FormData(form)
         data.append('id_kedai', url[1])
+        data.append('rating', $('#rating').val())
         $.ajax({
             type: "POST",
             url: "/ulasan",
@@ -317,6 +364,14 @@ SIG Coffee Shop - {{$kedai->nama_kedai}}
                         } else {
                             $('#feedback').removeClass('is-invalid')
                             $('.error-feedback').html('')
+                        }
+                        if (error.responseJSON.errors.rating) {
+                            $('#rating').addClass('is-invalid')
+                            $('#rating').trigger('focus')
+                            $('.error-rating').html(error.responseJSON.errors.rating)
+                        } else {
+                            $('#rating').removeClass('is-invalid')
+                            $('.error-rating').html('')
                         }
                     }
                 }

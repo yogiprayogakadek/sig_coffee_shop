@@ -19,8 +19,8 @@
                 <th>Alamat Lengkap</th>
                 <th>Latitude</th>
                 <th>Longitude</th>
-                {{-- <th>Alamat</th> --}}
                 <th>Foto</th>
+                <th>Suasana Kedai</th>
                 <th>Status</th>
                 <th>Aksi</th>
             </thead>
@@ -36,6 +36,11 @@
                         <img src="{{asset($kedai->foto)}}" class="img-rounded" width="100px">
                     </td>
                     <td>
+                        <button type="button" class="btn {{$kedai->suasana_kedai == null ? 'btn-primary btn-add-suasana' : 'btn-info btn-edit-suasana'}}" data-id="{{$kedai->id_kedai}}">
+                            {!!$kedai->suasana_kedai == null ? '<span class="fa fa-plus"></span> Tambah' : 'Lihat'!!}
+                        </button>
+                    </td>
+                    <td>
                         <select name="status" id="status" class="form-control" data-id="{{$kedai->id_kedai}}" data-status="{{$kedai->status}}">
                             <option value="1" {{$kedai->status == '1' ? 'selected' : ''}}>Aktif</option>
                             <option value="0" {{$kedai->status == '0' ? 'selected' : ''}}>Tidak Aktif</option>
@@ -45,14 +50,42 @@
                         <button type="button" class="btn btn-success btn-sm btn-edit" data-id="{{$kedai->id_kedai}}">
                             <i class="fa fa-edit"></i>
                         </button>
-                        {{-- <button type="button" class="btn btn-danger btn-sm btn-delete" data-id="{{$kedai->id_kedai}}">
-                            <i class="fa fa-trash"></i>
-                        </button> --}}
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalSuasana" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Suasana Kedai</h5>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">
+                        <span class="fa fa-times"></span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                <form id="formUpload" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input type="hidden" name="id_kedai" id="id_kedai">
+                        <label for="">Suasana Kedai</label>
+                        <input type="file" name="photos[]" id="photos" multiple class="form-control">
+                    </div>
+                </form>
+                <div class="row photos">
+                    {{-- <div class="photos"></div> --}}
+                </div>
+                <span class="noted"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btn-upload">Save</button>
+            </div>
+        </div>
     </div>
 </div>
 

@@ -45,12 +45,16 @@ Route::prefix('/owner')->namespace('Owner')->name('owner.')->middleware('auth')-
         Route::get('/create', 'KedaiController@create')->name('create');
         Route::get('/render', 'KedaiController@render')->name('render');
         Route::post('/store', 'KedaiController@store')->name('store');
+        Route::post('/upload', 'KedaiController@upload')->name('upload');
         Route::get('/edit/{id}', 'KedaiController@edit')->name('edit');
         Route::post('/update', 'KedaiController@update')->name('update');
+        Route::get('/delete/{id_kedai}', 'KedaiController@delete')->name('delete');
         Route::get('/print', 'KedaiController@print')->name('print');
-        Route::get('/detail/{id}', 'KedaiController@detail')->name('detail');
-        Route::get('/delete/{id}', 'KedaiController@delete')->name('delete');
         Route::post('/change-status', 'KedaiController@changeStatus')->name('change-status');
+        
+        // suasana kedai
+        Route::get('/detail/{id}', 'KedaiController@detail')->name('detail');
+        Route::get('/delete-image/{id_kedai}/{id_foto}', 'KedaiController@deleteImage')->name('delete-image');
     });
 
     Route::prefix('/produk')->name('produk.')->group(function(){
@@ -81,6 +85,7 @@ Route::prefix('/owner')->namespace('Owner')->name('owner.')->middleware('auth')-
     Route::prefix('/ulasan')->name('ulasan.')->group(function(){
         Route::get('/', 'UlasanController@index')->name('index');
         Route::get('/render', 'UlasanController@render')->name('render');
+        Route::get('/filter/{id_kedai}', 'UlasanController@filter')->name('filter');
         Route::post('/change-status', 'UlasanController@changeStatus')->name('change-status');
     });
 });

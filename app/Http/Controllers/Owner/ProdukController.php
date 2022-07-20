@@ -158,7 +158,26 @@ class ProdukController extends Controller
 
     public function detail($id)
     {
-        $data = Produk::find($id);
+        if($id != null) {
+            $produk = Produk::find($id);
+            $data = [
+                'nama_produk' => $produk->nama_produk,
+                'id_kedai' => $produk->id_kedai,
+                'harga' => $produk->harga,
+                'stok' => $produk->stok,
+                'deskripsi' => $produk->deskripsi,
+                'foto' => $produk->foto
+            ];
+        } else {
+            $data = [
+                'nama_produk' => 'a',
+                'id_kedai' => '',
+                'harga' => '',
+                'stok' => '',
+                'deskripsi' => '',
+                'foto' => ''
+            ];
+        }
         return response()->json($data);
     }
 

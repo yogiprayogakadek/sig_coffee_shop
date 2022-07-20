@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PendaftaranRequest;
 use App\Http\Requests\UlasanRequest;
 use App\Models\Kedai;
+use App\Models\Produk;
 use App\Models\Role;
 use App\Models\Ulasan;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Image;
 
@@ -17,9 +19,21 @@ class MainController extends Controller
 {
     public function index()
     {
-        $kedaiAcctive = Kedai::where('status', 1)->pluck('id_kedai');
-        $ulasan = Ulasan::whereIn('id_kedai', $kedaiAcctive)->where('status', true)->get();
-        $kedai = Kedai::take(4)->where('status', 1)->get();
+        if(Auth::check()) {
+            if(Auth::user()->role->nama == 'Owner') {
+                $kedaiAcctive = Kedai::where('id_user', Auth::user()->id_user)->where('status', 1)->pluck('id_kedai');
+                $ulasan = Ulasan::whereIn('id_kedai', $kedaiAcctive)->where('status', true)->get();
+                $kedai = Kedai::where('id_user', Auth::user()->id_user)->take(4)->get();
+            } else {
+                $kedaiAcctive = Kedai::where('status', 1)->pluck('id_kedai');
+                $ulasan = Ulasan::whereIn('id_kedai', $kedaiAcctive)->where('status', true)->get();
+                $kedai = Kedai::take(4)->where('status', 1)->get();
+            }
+        } else {
+            $kedaiAcctive = Kedai::where('status', 1)->pluck('id_kedai');
+            $ulasan = Ulasan::whereIn('id_kedai', $kedaiAcctive)->where('status', true)->get();
+            $kedai = Kedai::take(4)->where('status', 1)->get();
+        }
         return view('main.mainpage.landing.index')->with([
             'kedai' => $kedai,
             'ulasan' => $ulasan
@@ -30,18 +44,19 @@ class MainController extends Controller
     {
         $ulasan = Ulasan::where('id_kedai', $id)->where('status', true)->get();
         $kedai = Kedai::with('promo', 'produk')->find($id);
-
         if(auth()->check()) {
             $userHasFeedback = Ulasan::where('id_user', auth()->user()->id_user)->where('id_kedai', $id)->count();
             return view('main.mainpage.single-post.index')->with([
                 'kedai' => $kedai,
                 'ulasan' => $ulasan,
-                'userHasFeedback' => $userHasFeedback
+                'userHasFeedback' => $userHasFeedback,
+                'jumlah_produk' => $kedai->produk->count()
             ]);
         } else {
             return view('main.mainpage.single-post.index')->with([
                 'kedai' => $kedai,
-                'ulasan' => $ulasan
+                'ulasan' => $ulasan,
+                'jumlah_produk' => $kedai->produk->count()
             ]);
         }
 
@@ -53,11 +68,13 @@ class MainController extends Controller
             try {
                 $id_kedai = $request->id_kedai;
                 $ulasan = $request->feedback;
+                $rating = $request->rating;
 
                 Ulasan::create([
                     'id_kedai' => $id_kedai,
                     'ulasan' => $ulasan,
-                    'id_user' => auth()->user()->id_user
+                    'id_user' => auth()->user()->id_user,
+                    'rating' => $rating,
                 ]);
 
                 return response()->json([
@@ -79,8 +96,15 @@ class MainController extends Controller
 
     public function search()
     {
-        $kedai = Kedai::where('status', 1)->get();
-        // dd($kedai);
+        if(Auth::check()) {
+            if(Auth::user()->role->nama == 'Owner') {
+                $kedai = Kedai::where('id_user', Auth::user()->id_user)->where('status', 1)->get();
+            } else {
+                $kedai = Kedai::where('status', 1)->get();
+            }
+        } else {
+            $kedai = Kedai::where('status', 1)->get();
+        }
         return view('main.mainpage.search.index')->with([
             'kedai' => $kedai
         ]);

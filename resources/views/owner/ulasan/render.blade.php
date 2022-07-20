@@ -2,6 +2,15 @@
     <div class="card">
         <div class="card-header">
             <div class="card-title">Data Ulasan</div>
+            @can('admin')
+            <div class="card-options">
+                <select name="kedai" id="kedai" class="form-control select2-show-search">
+                    @foreach ($kedai as $key => $value)
+                        <option value="{{$key}}">{{$value}}</option>
+                    @endforeach
+                </select>
+            </div>
+            @endcan
         </div>
         <div class="card-body">
             <table class="table table-bordered text-nowrap border-bottom dataTable no-footer" role="grid"
@@ -12,6 +21,7 @@
                         <th>Nama Kedai</th>
                         <th>Pengulas</th>
                         <th>Ulasan</th>
+                        <th>Rating</th>
                         <td>Status</td>
                     </tr>
                 </thead>
@@ -22,6 +32,7 @@
                         <td>{{$data->kedai->nama_kedai}}</td>
                         <td>{{$data->user->nama}}</td>
                         <td>{{$data->ulasan}}</td>
+                        <td>{{$data->rating}}</td>
                         <td>
                             <select name="status" id="status" class="form-control" data-id="{{$data->id_ulasan}}" data-status="{{$data->status}}">
                                 <option value="1" {{$data->status == '1' ? 'selected' : ''}}>Aktif</option>
@@ -37,6 +48,10 @@
 </div>
 
 <script>
+    // $('.select2-show-search').select2({
+    //     minimumResultsForSearch: '',
+    //     // width: '100%'
+    // });
     $('#tableData').DataTable({
         language: {
             paginate: {

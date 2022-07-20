@@ -49,6 +49,57 @@ class KedaiController extends Controller
         return response()->json($view);
     }
 
+    public function upload(Request $request)
+    {
+        try {
+            $kedai = Kedai::where('id_kedai', $request->id_kedai)->first();
+            if($request->hasFile('photos')) {
+                for($i = 0; $i < count($request->file('photos')); $i++) {
+                    //get filename with extension
+                    $filenamewithextension = $request->file('photos')[$i]->getClientOriginalName();
+    
+                    //get file extension
+                    $extension = $request->file('photos')[$i]->getClientOriginalExtension();
+    
+                    //filename to store
+                    $filenametostore = $kedai->nama_kedai . '-' . ($i + 1) . '-' . time() . '.' . $extension;
+                    $save_path = 'assets/uploads/media/kedai/suasana';
+    
+                    if (!file_exists($save_path)) {
+                        mkdir($save_path, 666, true);
+                    }
+                    $foto[] = [
+                        // [
+                            'id' => ($i + 1),
+                            'foto' => $save_path . '/' . $filenametostore,
+                        // ]
+                    ];
+    
+                    $img = Image::make($request->file('photos')[$i]->getRealPath());
+                    $img->resize(512, 512);
+                    $img->save($save_path . '/' . $filenametostore);
+                }
+                $newData = json_encode($foto);
+                // $data['foto'] = $newData;
+            }
+            $kedai->update([
+                'suasana_kedai' => $newData
+            ]);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data berhasil tersimpan',
+                'title' => 'Berhasil'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+                'title' => 'Gagal'
+            ]);
+        }
+    }
+
     public function store(KedaiRequest $request)
     {
         try {
@@ -248,7 +299,7 @@ class KedaiController extends Controller
         }
     }
 
-    public function delete($id)
+    public function Image($id)
     {
         try {
             $kedai = Kedai::find($id);
@@ -289,6 +340,48 @@ class KedaiController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => 'Status gagal di ubah',
+                'title' => 'Gagal'
+            ]);
+        }
+    }
+
+    public function detail($id)
+    {
+        $data = array();
+        $kedai = Kedai::find($id);
+
+        foreach(json_decode($kedai->suasana_kedai) as $value) {
+            $data[] =[
+                'id' => $value->id,
+                'foto' => $value->foto
+            ];
+        }
+        return response()->json($data);
+    }
+
+    public function deleteImage($id_kedai, $id_foto)
+    {
+        try {
+            $kedai = Kedai::find($id_kedai);
+            foreach(json_decode($kedai->suasana_kedai) as $value) {
+                if($value->id == $id_foto) {
+                    unlink($value->foto);
+                    $kedai->suasana_kedai = json_decode($kedai->suasana_kedai);
+                    $kedai->suasana_kedai = json_encode(array_values(array_filter($kedai->suasana_kedai, function($value) use ($id_foto) {
+                        return $value->id != $id_foto;
+                    })));
+                    $kedai->save();
+                }
+            }
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data berhasil dihapus',
+                'title' => 'Berhasil'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
                 'title' => 'Gagal'
             ]);
         }

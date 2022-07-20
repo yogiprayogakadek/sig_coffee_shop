@@ -100,7 +100,7 @@
                                         <h5 class="card-description">"{{$ulasan->ulasan}}"
                                         </h5>
                                         <h4 class="card-title">{{$ulasan->user->nama}}</h4>
-                                        <h6 class="card-category text-muted">{{$ulasan->kedai->nama_kedai}}
+                                        <h6 class="card-category" style="color: white !important;">{{$ulasan->kedai->nama_kedai}}
                                     </div>
                                 </div>
                             </div>

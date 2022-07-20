@@ -17,6 +17,7 @@ class UlasanController extends Controller
     public function render()
     {
         if(auth()->user()->role->nama == 'Admin') {
+            $kedai = Kedai::pluck('nama_kedai', 'id_kedai')->prepend('Semua kedai', '0');
             $ulasan = Ulasan::all();
         } else {
             $kedai = Kedai::where('id_user', auth()->user()->id_user)->pluck('id_kedai');
@@ -25,10 +26,24 @@ class UlasanController extends Controller
 
         $view = [
             'data' => view('owner.ulasan.render')->with([
-                'data' => $ulasan
+                'data' => $ulasan,
+                'kedai' => $kedai,
             ])->render()
         ];
 
+        return response()->json($view);
+    }
+
+    public function filter($id_kedai)
+    {
+        $kedai = Kedai::pluck('nama_kedai', 'id_kedai')->prepend('Semua kedai', '0');
+        $ulasan = Ulasan::where('id_kedai', $id_kedai)->get();
+        $view = [
+            'data' => view('owner.ulasan.render')->with([
+                'data' => $ulasan,
+                'kedai' => $kedai,
+            ])->render()
+        ];
         return response()->json($view);
     }
 
@@ -36,7 +51,7 @@ class UlasanController extends Controller
     {
         try {
             $status = $request->status;
-            $ulasan = $request->ulasan;
+            // $ulasan = $request->id_ulasan;
             $ulasan = Ulasan::find($request->id_ulasan);
             $ulasan->update([
                 'status' => $status

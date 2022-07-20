@@ -12,6 +12,21 @@ function getData() {
     });
 }
 
+function filterData(id_kedai) {
+    $.ajax({
+        type: "get",
+        url: "/owner/ulasan/filter/"+id_kedai,
+        dataType: "json",
+        success: function (response) {
+            $(".render").html(response.data);
+            $('#kedai').val(id_kedai);
+        },
+        error: function (error) {
+            console.log("Error", error);
+        },
+    });
+}
+
 $(document).ready(function () {
     getData();
 
@@ -52,5 +67,15 @@ $(document).ready(function () {
                 );
             }
         });
+    });
+
+    // on kedai change
+    $('body').on('change', '#kedai', function() {
+        let idKedai = $(this).val();
+        if(idKedai != '0') {
+            filterData(idKedai);
+        } else {
+            getData();
+        }
     });
 });
