@@ -97,6 +97,9 @@
                                         </a>
                                     </div>
                                     <div class="card-body">
+                                        @for ($i = 0; $i < $ulasan->rating; $i++)  
+                                            <i class="fa fa-star fa-rating fa-2x" style="color: white !important;"></i>
+                                        @endfor
                                         <h5 class="card-description">"{{$ulasan->ulasan}}"
                                         </h5>
                                         <h4 class="card-title">{{$ulasan->user->nama}}</h4>

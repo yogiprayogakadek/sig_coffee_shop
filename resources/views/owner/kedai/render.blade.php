@@ -18,9 +18,11 @@
                 <th>Latitude</th>
                 <th>Longitude</th>
                 <th>Foto</th>
-                <th>Suasana Kedai</th>
+                @can('admin')
                 <th>Status</th>
+                @endcan
                 @can('owner')
+                <th>Suasana Kedai</th>
                 <th>Aksi</th>
                 @endcan
             </thead>
@@ -35,18 +37,20 @@
                     <td>
                         <img src="{{asset($kedai->foto)}}" class="img-rounded" width="100px">
                     </td>
-                    <td>
-                        <button type="button" class="btn {{$kedai->suasana_kedai == null ? 'btn-primary btn-add-suasana' : 'btn-info btn-edit-suasana'}}" data-id="{{$kedai->id_kedai}}">
-                            {!!$kedai->suasana_kedai == null ? '<span class="fa fa-plus"></span> Tambah' : 'Lihat'!!}
-                        </button>
-                    </td>
+                    @can('admin')
                     <td>
                         <select name="status" id="status" class="form-control" data-id="{{$kedai->id_kedai}}" data-status="{{$kedai->status}}">
                             <option value="1" {{$kedai->status == '1' ? 'selected' : ''}}>Aktif</option>
                             <option value="0" {{$kedai->status == '0' ? 'selected' : ''}}>Tidak Aktif</option>
                         </select>
                     </td>
+                    @endcan
                     @can('owner')   
+                    <td>
+                        <button type="button" class="btn {{$kedai->suasana_kedai == null ? 'btn-primary btn-add-suasana' : 'btn-info btn-edit-suasana'}}" data-id="{{$kedai->id_kedai}}">
+                            {!!$kedai->suasana_kedai == null ? '<span class="fa fa-plus"></span> Tambah' : 'Lihat'!!}
+                        </button>
+                    </td>
                     <td>
                         <button type="button" class="btn btn-success btn-sm btn-edit" data-id="{{$kedai->id_kedai}}">
                             <i class="fa fa-edit"></i>

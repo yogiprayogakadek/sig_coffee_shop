@@ -20,7 +20,9 @@
                         <th>Nama Produk</th>
                         <th>Harga</th>
                         <th>Foto</th>
+                        @can('admin')
                         <td>Status</td>
+                        @endcan
                         @can('owner')
                         <th>Aksi</th>
                         @endcan
@@ -38,12 +40,14 @@
                         <td>
                             <img class="d-block w-100 br-5 image-update" alt="" src="{{asset($data->foto)}}"> 
                         </td>
+                        @can('admin')
                         <td>
                             <select name="status" id="status" class="form-control" data-id="{{$data->id_produk}}" data-status="{{$data->status}}">
                                 <option value="1" {{$data->status == '1' ? 'selected' : ''}}>Aktif</option>
                                 <option value="0" {{$data->status == '0' ? 'selected' : ''}}>Tidak Aktif</option>
                             </select>
                         </td>
+                        @endcan
                         @can('owner')   
                         <td>
                             <button class="btn btn-primary btn-edit" data-id="{{$data->id_produk}}">
