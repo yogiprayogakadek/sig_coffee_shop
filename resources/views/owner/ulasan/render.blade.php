@@ -22,7 +22,9 @@
                         <th>Pengulas</th>
                         <th>Ulasan</th>
                         <th>Rating</th>
+                        @can('admin')
                         <td>Status</td>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody>
@@ -33,12 +35,14 @@
                         <td>{{$data->user->nama}}</td>
                         <td>{{$data->ulasan}}</td>
                         <td>{{$data->rating}}</td>
+                        @can('admin')
                         <td>
                             <select name="status" id="status" class="form-control" data-id="{{$data->id_ulasan}}" data-status="{{$data->status}}">
                                 <option value="1" {{$data->status == '1' ? 'selected' : ''}}>Aktif</option>
                                 <option value="0" {{$data->status == '0' ? 'selected' : ''}}>Tidak Aktif</option>
                             </select>
                         </td>
+                        @endcan
                     </tr>
                     @endforeach
                 </tbody>
