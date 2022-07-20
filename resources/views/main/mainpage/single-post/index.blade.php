@@ -21,7 +21,8 @@ SIG Coffee Shop - {{$kedai->nama_kedai}}
             <div class="col-md-12 ml-auto mr-auto">
                 <h2 class="text-center title">Suasana Kedai</h2>
                 <div class="row">
-                    @forelse (json_decode($kedai->suasana_kedai) as $suasana)
+                    @if ($kedai->suasana_kedai != null)
+                    @foreach (json_decode($kedai->suasana_kedai) as $suasana)
                         <div class="col-md-4 mr-auto ml-auto">
                             {{-- <div class="card"> --}}
                                 <div class="card-body">
@@ -31,9 +32,10 @@ SIG Coffee Shop - {{$kedai->nama_kedai}}
                                 </div>
                             {{-- </div> --}}
                         </div>
-                    @empty
+                    @endforeach
+                    @else
                     <h2 class="text-center title">Belum ada data</h2>
-                    @endforelse
+                    @endif
                 </div>
                 
             </div>
